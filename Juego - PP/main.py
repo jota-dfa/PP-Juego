@@ -108,6 +108,7 @@ def Juego():
     Rect_der_2 = pygame.Rect(700,480, 20,10)#Velocidad der
     Rect_izq_1 = pygame.Rect(60,460, 20,10)#Angulo izq
     Rect_izq_2 = pygame.Rect(60,480, 20,10)#Velocidad izq
+    
     clock = pygame.time.Clock()######################################
     VENTANA = pygame.display.set_mode((ANCHO, ALTO)) # (Horizontal, Vertical)
     pygame.display.set_caption("Scorched World")
@@ -128,6 +129,7 @@ def Juego():
         texto_B_velocidad = fuente_base.render(texto_velocidad,True,(0,0,0))
         VENTANA.blit(texto_B_angulo,(Rect_der_1.x + 30, Rect_der_1.y) )
         VENTANA.blit(texto_B_velocidad,(Rect_der_2.x + 30, Rect_der_2.y))     
+    
     ''' Elementos Inciales '''
     
     def elem_inciales():
@@ -181,6 +183,10 @@ def Juego():
     turno = 1
     cont = 0
     active = False
+    Angulo_usuario = 0.0
+    Angulo_usuario2 = 0.0
+    Velocidad_usuario = 0.0
+    Velocidad_usuario2 = 0.0
     while turno != 0: #PRINCIPAL
         
         if cont == 0:
@@ -240,11 +246,11 @@ def Juego():
             else:
                 active = False
    
-
+   
         if turno == 1:
             #print("\nJUGADOR 1")
             velocidad = Velocidad_usuario
-            angulo = Angulo_usuario 
+            angulo = float(Angulo_usuario) 
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
@@ -270,7 +276,7 @@ def Juego():
         if turno == 2:
             #print("\nJUGADOR 2")
             velocidad = Velocidad_usuario2
-            angulo = Angulo_usuario2
+            angulo = float(Angulo_usuario2)
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #condicion de no entrada
             cont += 1
