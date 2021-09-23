@@ -15,7 +15,8 @@ BLANCO = (255, 255, 255)
 CAFE = (145, 105, 81)
 ROJO = (255, 0, 0)
 AZUL = (30, 45, 110)
-GRIS =  pygame.Color(131,139,139)
+GRIS =  (131,139,139)
+
 fuente_base = pygame.font.Font(None,12)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
@@ -75,7 +76,7 @@ class Proyectil():
     def grad_a_rad(angulo):
         rad = 0.0
         rad = angulo*(3.1415/180) #0.01745
-        print("rad: ",rad)
+        #print("rad: ",rad)
         return rad
 
     '''Colisiones proyectil'''
@@ -86,6 +87,7 @@ class Proyectil():
             return False
 
 class InterfazJuego():
+    
     def __init__(self) -> None:
         pass
 
@@ -104,32 +106,26 @@ def Juego():
     Velocidad_usuario = ''
     Angulo_usuario2 = ''
     Velocidad_usuario2 = '' 
-    Rect_der_1 = pygame.Rect(700,460, 20,10)#Angulo der
-    Rect_der_2 = pygame.Rect(700,480, 20,10)#Velocidad der
-    Rect_izq_1 = pygame.Rect(60,460, 20,10)#Angulo izq
-    Rect_izq_2 = pygame.Rect(60,480, 20,10)#Velocidad izq
+    '''Rect_der_1 = pygame.Rect(700,460, 20,10)#Angulo der
+    Rect_der_2 = pygame.Rect(700,480, 20,10)#Velocidad der'''
+    Rect_izq_1 = pygame.Rect(380,460, 20,10)#Angulo izq
+    Rect_izq_2 = pygame.Rect(380,480, 20,10)#Velocidad izq
     
     clock = pygame.time.Clock()######################################
     VENTANA = pygame.display.set_mode((ANCHO, ALTO)) # (Horizontal, Vertical)
     pygame.display.set_caption("Scorched World")
 
-    def Opciones_izq():
+    def Opciones_izq(): # objetos
         pygame.draw.rect(VENTANA, (255,255,255),( 0, 450, 1000, 600))
-        pygame.draw.rect(VENTANA, GRIS, Rect_izq_1,2)
-        pygame.draw.rect(VENTANA, GRIS, Rect_izq_2,2)
+        
+        pygame.draw.rect(VENTANA, GRIS, Rect_izq_1,2) #
+        pygame.draw.rect(VENTANA, GRIS, Rect_izq_2,2) #
+        
         texto_B_angulo = fuente_base.render(texto_angulo,True,(0,0,0))
         texto_B_velocidad = fuente_base.render(texto_velocidad,True,(0,0,0))
         VENTANA.blit(texto_B_angulo,(Rect_izq_1.x - 40 , Rect_izq_1.y))
         VENTANA.blit(texto_B_velocidad,(Rect_izq_2.x - 40,Rect_izq_2.y))
-
-    def Opciones_der():
-        pygame.draw.rect(VENTANA, GRIS, Rect_der_1,2)
-        pygame.draw.rect(VENTANA, GRIS, Rect_der_2,2)
-        texto_B_angulo = fuente_base.render(texto_angulo,True,(0,0,0))
-        texto_B_velocidad = fuente_base.render(texto_velocidad,True,(0,0,0))
-        VENTANA.blit(texto_B_angulo,(Rect_der_1.x + 30, Rect_der_1.y) )
-        VENTANA.blit(texto_B_velocidad,(Rect_der_2.x + 30, Rect_der_2.y))     
-    
+     
     ''' Elementos Inciales '''
     
     def elem_inciales():
@@ -145,7 +141,7 @@ def Juego():
 
     elem_inciales()
     Opciones_izq()
-    Opciones_der()
+
     ''' Fin elementos iniciales '''
 
     #PROYECTILES
@@ -174,19 +170,74 @@ def Juego():
         
         elem_inciales()
         Opciones_izq()
-        Opciones_der() 
         #Posicion definitiva tanques
         Tanques.p1(VENTANA, a, 380)
         Tanques.p2(VENTANA, b, 380)
         return a, b
 
+    def evento_angulo():
+        salir = 0
+        angulo_usuario = ''
+        while salir == 0:
+            for event in pygame.event.get():
+                
+                if event.type == pygame.MOUSEBUTTONDOWN: #ANGULO
+                    if Rect_izq_1.collidepoint(event.pos):
+                        active = True
+                    else:
+                        active = False
+
+                if event.type == pygame.KEYDOWN:
+                    if active == True:
+                        if event.key == pygame.K_BACKSPACE:
+                            angulo_usuario = angulo_usuario[:-1]
+                        if event.key == pygame.K_SPACE: ###########
+                            salir = 1
+                        else:
+                            angulo_usuario += event.unicode
+
+                text_surface = fuente_base.render(angulo_usuario, True,(0,0,0))
+                VENTANA.blit(text_surface,(Rect_izq_1.x + 3, Rect_izq_1.y + 3))
+                Rect_izq_1.w = max(100, text_surface.get_width() + 10)
+
+                pygame.display.update()
+                clock.tick(60)
+
+        return angulo_usuario
+
+    def evento_velocidad():
+        salir = 0
+        velocidad_usuario = ''
+        while salir == 0:
+            for event in pygame.event.get():
+
+                if event.type == pygame.MOUSEBUTTONDOWN: #VELOCIDAD
+                    if Rect_izq_2.collidepoint(event.pos):
+                        active = True
+                    else:
+                        active = False
+
+                if event.type == pygame.KEYDOWN:
+                    if active == True:
+                        if event.key == pygame.K_BACKSPACE:
+                            velocidad_usuario = velocidad_usuario[:-1]
+                        if event.key == pygame.K_SPACE: ###############
+                            salir = 1
+                        else:
+                            velocidad_usuario += event.unicode
+
+                text_surface = fuente_base.render(velocidad_usuario, True,(0,0,0))
+                VENTANA.blit(text_surface,(Rect_izq_2.x + 3, Rect_izq_2.y + 3))
+                Rect_izq_2.w = max(100, text_surface.get_width() + 10)
+
+                pygame.display.update()
+                clock.tick(60)
+
+        return velocidad_usuario
+
     turno = 1
     cont = 0
     active = False
-    Angulo_usuario = 0.0
-    Angulo_usuario2 = 0.0
-    Velocidad_usuario = 0.0
-    Velocidad_usuario2 = 0.0
     while turno != 0: #PRINCIPAL
         
         if cont == 0:
@@ -201,56 +252,12 @@ def Juego():
                 sys.exit()
         pygame.display.update()  #Actualizacion ventana
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if Rect_izq_1.collidepoint(event.pos):
-                active = True
-                if event.type == pygame.KEYDOWN:
-                    if active == True:  
-                        if event.key == pygame.K_BACKSPACE:
-                            Angulo_usuario = Angulo_usuario[:-1]
-                else:
-                    Angulo_usuario += event.unicode
-            else:
-                active = False
-
-            if Rect_izq_2.collidepoint(event.pos):
-                active = True
-                if event.type == pygame.KEYDOWN:
-                    if active == True:  
-                        if event.key == pygame.K_BACKSPACE:
-                           Velocidad_usuario = Velocidad_usuario[:-1]
-                else:
-                    Velocidad_usuario += event.unicode                
-            else:
-                active = False
-
-            if Rect_der_1.collidepoint(event.pos):
-                active = True
-                if event.type == pygame.KEYDOWN:
-                    if active == True:  
-                        if event.key == pygame.K_BACKSPACE:
-                            Angulo_usuario2 = Angulo_usuario2[:-1]
-                else:
-                    Angulo_usuario2 += event.unicode                
-            else:
-                active = False
-
-            if Rect_der_2.collidepoint(event.pos):
-                active = True
-                if event.type == pygame.KEYDOWN:
-                    if active == True:  
-                        if event.key == pygame.K_BACKSPACE:
-                            Velocidad_usuario2 = Velocidad_usuario2[:-1]
-                else:
-                    Velocidad_usuario2 += event.unicode                
-            else:
-                active = False
-   
-   
         if turno == 1:
-            #print("\nJUGADOR 1")
-            velocidad = Velocidad_usuario
-            angulo = float(Angulo_usuario) 
+            print("\nJUGADOR 1")
+            angulo_usuario = evento_angulo()
+            velocidad_usuario = evento_velocidad()
+            velocidad = int(velocidad_usuario)
+            angulo = float(angulo_usuario) 
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
@@ -267,18 +274,22 @@ def Juego():
         if(colision == False):
             turno = 0
             elem_inciales()
-            Opciones_der()
             Opciones_izq()            
             if(cont % 2 != 0):
                 turno += 2
             else:
                 turno += 1
-            time.sleep(0.5) #delay por turnos
-            
+            #time.sleep(0.5) #delay por turnos
+        
+        Tanques.p1(VENTANA, posT1, 380) #permanecia de tanques p1
+        Tanques.p2(VENTANA, posT2, 380)
+
         if turno == 2:
-            #print("\nJUGADOR 2")
-            velocidad = Velocidad_usuario2
-            angulo = float(Angulo_usuario2)
+            print("\nJUGADOR 2")
+            angulo_usuario = evento_angulo()
+            velocidad_usuario = evento_velocidad()
+            velocidad = int(velocidad_usuario)
+            angulo = float(angulo_usuario)
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #condicion de no entrada
             cont += 1
