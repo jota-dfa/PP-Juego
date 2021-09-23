@@ -267,6 +267,8 @@ def Juego():
         if(colision == False):
             turno = 0
             elem_inciales()
+            Opciones_der()
+            Opciones_izq()            
             if(cont % 2 != 0):
                 turno += 2
             else:
