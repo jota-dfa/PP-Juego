@@ -1,6 +1,6 @@
 import pygame, sys
  
-# Setup pygame/window ---------------------------------------- #
+
 mainClock = pygame.time.Clock()
 from pygame.locals import *
 pygame.init()

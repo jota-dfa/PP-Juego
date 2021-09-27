@@ -17,7 +17,7 @@ ROJO = (255, 0, 0)
 AZUL = (30, 45, 110)
 GRIS =  (131,139,139)
 
-fuente_base = pygame.font.Font(None,12)
+fuente_base = pygame.font.Font(None,30)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
  
@@ -108,8 +108,8 @@ def Juego():
     Velocidad_usuario2 = '' 
     '''Rect_der_1 = pygame.Rect(700,460, 20,10)#Angulo der
     Rect_der_2 = pygame.Rect(700,480, 20,10)#Velocidad der'''
-    Rect_izq_1 = pygame.Rect(380,460, 20,10)#Angulo izq
-    Rect_izq_2 = pygame.Rect(380,480, 20,10)#Velocidad izq
+    Rect_izq_1 = pygame.Rect(100,460, 50,25)#Angulo izq
+    Rect_izq_2 = pygame.Rect(600,460, 50,25)#Velocidad izq
     
     clock = pygame.time.Clock()######################################
     VENTANA = pygame.display.set_mode((ANCHO, ALTO)) # (Horizontal, Vertical)
@@ -123,8 +123,8 @@ def Juego():
         
         texto_B_angulo = fuente_base.render(texto_angulo,True,(0,0,0))
         texto_B_velocidad = fuente_base.render(texto_velocidad,True,(0,0,0))
-        VENTANA.blit(texto_B_angulo,(Rect_izq_1.x - 40 , Rect_izq_1.y))
-        VENTANA.blit(texto_B_velocidad,(Rect_izq_2.x - 40,Rect_izq_2.y))
+        VENTANA.blit(texto_B_angulo,(Rect_izq_1.x - 90 , Rect_izq_1.y + 4))
+        VENTANA.blit(texto_B_velocidad,(Rect_izq_2.x - 115,Rect_izq_2.y + 4))
      
     ''' Elementos Inciales '''
     
@@ -174,6 +174,24 @@ def Juego():
         Tanques.p1(VENTANA, a, 380)
         Tanques.p2(VENTANA, b, 380)
         return a, b
+    def validar_angulo(x):
+        if x > 180 or x < 0:
+            angulo_usuario = 0
+            return angulo_usuario
+
+        else:
+              angulo_usuario = x
+              return angulo_usuario  
+
+
+    def validar_velocidad(y):
+        if y > 250:
+            velocidad_usuario = 0
+            return velocidad_usuario
+
+        else:
+            velocidad_usuario = y
+            return velocidad_usuario    
 
     def evento_angulo():
         salir = 0
@@ -256,8 +274,8 @@ def Juego():
             print("\nJUGADOR 1")
             angulo_usuario = evento_angulo()
             velocidad_usuario = evento_velocidad()
-            velocidad = int(velocidad_usuario)
-            angulo = float(angulo_usuario) 
+            velocidad = validar_velocidad(int(velocidad_usuario))
+            angulo = validar_angulo(float(angulo_usuario) )
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
@@ -288,8 +306,8 @@ def Juego():
             print("\nJUGADOR 2")
             angulo_usuario = evento_angulo()
             velocidad_usuario = evento_velocidad()
-            velocidad = int(velocidad_usuario)
-            angulo = float(angulo_usuario)
+            velocidad = validar_velocidad(int(velocidad_usuario))
+            angulo = validar_angulo(float(angulo_usuario))
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #condicion de no entrada
             cont += 1
