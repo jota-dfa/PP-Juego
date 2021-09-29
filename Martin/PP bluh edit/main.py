@@ -233,7 +233,7 @@ def Juego():
         if y < 0 or y > 250:
             Opciones_validar_vel()
             while y < 0 or y > 250:
-                print("ERROR, Velocidad mayor a 250")
+                print("ERROR, Velocidad incorrecta")
                 y = int(evento_velocidad())
                 
             return y    
