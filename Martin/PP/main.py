@@ -4,14 +4,11 @@ import math
 import time
 import random
 
-
-
 pygame.font.init()
-
 #GLOBALES - CONSTANTES
 ALTO = 500
 ANCHO = 800
-clock = pygame.time.Clock()
+
 CELESTE = (135, 206, 235)
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
@@ -30,26 +27,26 @@ class Mapa():
         pass
         
     def terreno(VENTANA):
-        terreno2 = pygame.draw.rect(VENTANA, CAFE, (0, 400, 800, 100)) #(posX, posY, Largo, Alto) BASE
-        pointsT2 = [(0, 400), (40, 370), (95, 400), (144, 380), (250, 340), (390, 390),(410, 410)]
-        #terreno2 = pygame.draw.polygon(VENTANA, CAFE, pointsT2, 70)
-        #pointsT3 = [(500, 410), (530, 380), (540, 350), (560, 380), (590, 300), (615, 340),(645, 370),(680, 310), (700, 350), (800, 410) ]
-        #terreno3 = pygame.draw.polygon(VENTANA, CAFE, pointsT3, 70)
-        #rellenoT2 = pygame.draw.circle(VENTANA, CAFE, (530, 400), 51, 0) #Ciculo
-        #rellenoT2_2 = pygame.draw.circle(VENTANA, CAFE, (650, 400), 70, 0) #Ciculo
+
+            piso = pygame.image.load("imagenes/piso.png")
+            VENTANA.blit(piso, (0, 0))
+
 
 class Tanques():
 
-    def __init__(self, a,b,y):
-        self.a = a
-        self.b = b
-        self.y = y
+    def __init__(self, coordenada1_1,coordenada1_2):
+        self.coordenada1_1 = coordenada1_1
+        self.coordenada1_2 = coordenada1_2
+        
 
-    def p1(VENTANA, a, y): # b = random
-        p1_posNcolor = pygame.draw.rect(VENTANA, ROJO, [a, y , 50, 20]) #JUGADOR 1
+    def p1(VENTANA, coordenada1_1, coordenada1_2): # b = random
+        tanque_1 = pygame.image.load("imagenes/tanque_1.png")
+        VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2)) 
+       
 
     def p2(VENTANA, b, y): # a = random
-        p2_posNcolor = pygame.draw.rect(VENTANA, BLANCO, [b, y , 50, 20]) #JUGADOR 2      
+        tanque_2 = pygame.image.load("imagenes/tanque_2.png")
+        VENTANA.blit(tanque_2, (b, y))      
 
 class Proyectil():
     
@@ -86,7 +83,7 @@ class Proyectil():
     def colision_terreno(x, y):
         if(x<=0 or x>=800):
             return False
-        if(y>=400):
+        if(y>=400): ####colision terreno planoooooooooooooooooooo
             return False
 
 class InterfazJuego():
@@ -103,13 +100,18 @@ class InterfazJuego():
 def Juego():
     
     ##### FUNCIONES PRINCIPALES DEL JUEGO ######
+
     #VENTANA
+    Angulo_usuario = ''
+    Velocidad_usuario = ''
+    Angulo_usuario2 = ''
+    Velocidad_usuario2 = '' 
     '''Rect_der_1 = pygame.Rect(700,460, 20,10)#Angulo der
     Rect_der_2 = pygame.Rect(700,480, 20,10)#Velocidad der'''
     Rect_izq_1 = pygame.Rect(100,460, 50,25)#Angulo izq
     Rect_izq_2 = pygame.Rect(600,460, 50,25)#Velocidad izq
     
-    #clock = pygame.time.Clock()######################################
+    clock = pygame.time.Clock()######################################
     VENTANA = pygame.display.set_mode((ANCHO, ALTO)) # (Horizontal, Vertical)
     pygame.display.set_caption("Scorched World")
 
@@ -155,24 +157,48 @@ def Juego():
             return False
 
     def spawn_tanques(mov_y): #animacion , escalar con un arreglo de randoms
-        a = random.randint(0,200)
-        b = random.randint(400,600)
-        #mov_y = 0
-        while (mov_y < 380): # 380 = colision temporal, cambiar 380 a variable
-            #J1
-            Tanques.p1(VENTANA, a, mov_y)
-            #J2
-            Tanques.p2(VENTANA, b, mov_y)
-            mov_y = mov_y + 0.3
-            pygame.display.update()
+        a = 1
+        b =random.randint(1,2)
         
+        xl1_1=random.randint(0,100)
+        yl1_1=((-0.5*xl1_1)-155)*-1
+        yl2_1=220
+        xl3_1=random.randint(210,300)
+        yl3_1=((0.9*xl3_1)-400)*-1+40
+        if(a==1):
+            coordenada1_1 = xl1_1
+            coordenada1_2 = yl1_1+80
+        if(a==2):
+            coordenada1_1 = xl1_1
+            coordenada1_2 = yl2_1
+        if(a==3):
+            coordenada1_1 = xl3_1
+            coordenada1_2 = yl3_1
+
+        xl1_2=random.randint(550,700)
+        yl1_2=((0.16*xl1_2)-265)*-1
+        xl2_2 =random.randint(300,550)
+        yl2_2 =((-0.32*xl2_2)-34)*-1+50
+        if(b==1):
+            coordenada2_1 = xl1_2
+            coordenada2_2 = yl1_2+80
+        if(b==2):
+            coordenada2_1 = xl2_2
+            coordenada2_2 = yl2_2 
+    
+        Tanques.p1(VENTANA, coordenada1_1, coordenada1_2)
+        Tanques.p2(VENTANA, coordenada2_1,coordenada2_2)
+    
+        pygame.display.update()
+
         elem_inciales()
         Opciones_izq()
         #Posicion definitiva tanques
-        Tanques.p1(VENTANA, a, 380)
-        Tanques.p2(VENTANA, b, 380)
-        return a, b
-  
+        Tanques.p1(VENTANA, coordenada1_1, coordenada1_2)
+        Tanques.p2(VENTANA, coordenada2_1,coordenada2_2)
+
+        return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
+
     def validar_angulo(x):
         if x < 0 or x > 180:
             while x < 0 or x > 180:
@@ -233,7 +259,6 @@ def Juego():
     def evento_velocidad():
         salir = 0
         velocidad_usuario = ''
-        active = False
         while salir == 0:
             for event in pygame.event.get():
 
@@ -267,15 +292,17 @@ def Juego():
     while turno != 0: #PRINCIPAL
         
         if cont == 0:
-            posT1, posT2 = spawn_tanques(0)
+            x1_1, y1_2, x2_1, y2_2 = spawn_tanques(0)
+            
         else:
-            Tanques.p1(VENTANA, posT1, 380) #permanecia de tanques p1
-            Tanques.p2(VENTANA, posT2, 380) #         //           p2
+            Tanques.p1(VENTANA, x1_1, y1_2) #permanecia de tanques p1
+            Tanques.p1(VENTANA, x2_1,y2_2)
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
         pygame.display.update()  #Actualizacion ventana
 
         if turno == 1:
@@ -283,13 +310,12 @@ def Juego():
             angulo_usuario = evento_angulo()
             velocidad_usuario = evento_velocidad()
             velocidad = validar_velocidad(int(velocidad_usuario))
-            angulo = validar_angulo(float(angulo_usuario))
+            angulo = validar_angulo(float(angulo_usuario)) 
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
             t = 0
             pos_tanque = posT1+25 # 2 pos tanques 1 def de proyectil
-
         
         #t = pygame.time.get_ticks()/1000 #en segundos
         #t = t #5 veces mas rapido
@@ -315,8 +341,8 @@ def Juego():
             print("\nJUGADOR 2")
             angulo_usuario = evento_angulo()
             velocidad_usuario = evento_velocidad()
-            velocidad = validar_velocidad(int(velocidad_usuario))
-            angulo = validar_angulo(float(angulo_usuario))
+            velocidad = int(velocidad_usuario)
+            angulo = float(angulo_usuario)
             angulo = Proyectil.grad_a_rad(angulo)
             turno += 5 #condicion de no entrada
             cont += 1
@@ -324,4 +350,3 @@ def Juego():
             pos_tanque = posT2+25
 
         clock.tick(60)
-        

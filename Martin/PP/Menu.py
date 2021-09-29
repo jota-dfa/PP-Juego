@@ -1,5 +1,5 @@
 import pygame, sys
-import main_copia
+import main
 
 Reloj = pygame.time.Clock()
 from pygame.locals import *
@@ -29,7 +29,7 @@ def Menu_principal():
         Boton_2 = pygame.Rect(50, 200, 200, 50)
         if Boton_1.collidepoint((mx, my)):
             if click:
-                main_copia.Juego()
+                main.Juego()
 
         if Boton_2.collidepoint((mx, my)):
             if click:
