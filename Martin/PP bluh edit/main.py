@@ -31,6 +31,35 @@ class Mapa():
             piso = pygame.image.load("imagenes/piso.png")
             VENTANA.blit(piso, (0, 0))
 
+    def colisionBala_terreno(x,y):
+        if x > 0 and x < 100:   #Recta 1
+            a = ((-0.5*x-190)*-1)-y
+            if a<-60:         
+                print("RECT 1")
+                return False            
+        if x > 100 and x < 200: #Recta 2
+            b = ((-240)*-1)-y
+            if b<-60:         
+                print("RECT 2")
+                return False            
+        if x > 200 and x < 300: #Recta 3
+            c = ((0.9*x-420)*-1)-y
+            if c<-60:         
+                print("RECT 3")
+                return False
+        if x > 300 and x < 500: #Recta 4
+            d = ((-0.3*x-60)*-1)-y
+            if d<-60:         
+                print("RECT 4")
+                return False
+        if x >550 and x < 800:  #Recta 5
+            f = ((0.16*x-318)*-1)-y
+            if f<-60:         
+                print("RECT 5")
+                return False
+     
+
+
 
 class Tanques():
 
@@ -81,7 +110,7 @@ class Proyectil():
         return rad
 
     '''Colisiones proyectil'''
-    def colision_terreno(x, y):
+    def colision_terreno(x,y):        
         if(x<=0 or x>=800):
             return False
         '''if(y>=400): ####colision terreno planoooooooooooooooooooo
@@ -168,19 +197,26 @@ def Juego():
         Proyectil.dibu_proyectil(tr_x, tr_y, VENTANA)
         return tr_x, tr_y
 
+    """def Colision_balaterreno(bala):
+        if ()"""
+
     def check_colision(x, y):
         if(Proyectil.colision_terreno(x, y) == False):
             return False
+
+        if(Mapa.colisionBala_terreno(x,y) == False):
+            return False
+
 
     def spawn_tanques(mov_y): #animacion , escalar con un arreglo de randoms
         a = 1
         b =random.randint(1,2)
         
         xl1_1=random.randint(0,100)
-        yl1_1=((-0.5*xl1_1)-155)*-1
-        yl2_1=220
+        yl1_1=((-0.5*xl1_1)-155)*-1 #Recta 1 - tanque 1
+        yl2_1=220                   #Recta 2 - tanque 1
         xl3_1=random.randint(210,300)
-        yl3_1=((0.9*xl3_1)-400)*-1+40
+        yl3_1=((0.9*xl3_1)-400)*-1+40   #Recta 3 - tanque 1
         if(a==1):
             coordenada1_1 = xl1_1
             coordenada1_2 = yl1_1+80
@@ -192,9 +228,9 @@ def Juego():
             coordenada1_2 = yl3_1
 
         xl1_2=random.randint(550,700)
-        yl1_2=((0.16*xl1_2)-265)*-1
+        yl1_2=((0.16*xl1_2)-265)*-1  #Recta 1 - tanque 2, recta compartida t1 y t2
         xl2_2 =random.randint(300,550)
-        yl2_2 =((-0.32*xl2_2)-34)*-1+50
+        yl2_2 =((-0.32*xl2_2)-34)*-1+50  #Recta 2 - tanque 2
         if(b==1):
             coordenada2_1 = xl1_2
             coordenada2_2 = yl1_2+80
@@ -227,7 +263,6 @@ def Juego():
         else:
             angulo_usuario = x
             return angulo_usuario   
-
 
     def validar_velocidad(y):
         if y < 0 or y > 250:
