@@ -58,14 +58,16 @@ class Mapa():
                 print("RECT 5")
                 return False
      
-
-
-
 class Tanques():
 
-    def __init__(self, coordenada1_1,coordenada1_2):
+    def __init__(self, coordenada1_1,coordenada1_2, x_proyect,y_proyect,a_posT,b_posT):
         self.coordenada1_1 = coordenada1_1
         self.coordenada1_2 = coordenada1_2
+
+        self.x_proyect = x_proyect
+        self.y_proyect = y_proyect
+        self.a_posT = a_posT
+        self.b_posT = b_posT
         
 
     def p1(VENTANA, coordenada1_1, coordenada1_2): # b = random
@@ -75,7 +77,13 @@ class Tanques():
 
     def p2(VENTANA, b, y): # a = random
         tanque_2 = pygame.image.load("imagenes/tanque_2.png")
-        VENTANA.blit(tanque_2, (b, y))      
+        VENTANA.blit(tanque_2, (b, y))   
+
+    def col_proyectil_tanque(x_proyect, y_proyect, a_posT, b_posT):
+        if(x_proyect >= a_posT and x_proyect <= a_posT+60):
+            if(y_proyect >= b_posT and y_proyect <= b_posT+35):
+                #print("Ok_colison_proyectil_tanque")
+                return True      
 
 class Proyectil():
     
@@ -121,11 +129,46 @@ class InterfazJuego():
     def __init__(self) -> None:
         pass
 
-    '''def valIniciales():
-        v = float(input("Velocidad: "))
-        angulo = float(input("Angulo (90>a>0): "))
-        angulo = float(Proyectil.grad_a_rad(angulo))
-        return v, angulo '''
+    def pantalla_ganador(VENTANA, a):
+        fondo = pygame.image.load("imagenes/fondo_ganador.jpg")
+        VENTANA.blit(fondo, (0, 0))
+        while a == 1:
+            for event in pygame.event.get():
+                pygame.draw.rect(VENTANA, GRIS, [295, 400 , 200, 250])   #P1
+                Tanques.p1(VENTANA, 360, 365)
+                
+                texto_ganador = fuente_base.render('Ganador - P1 ',True,(255,255,255))
+                VENTANA.blit(texto_ganador,(330 , 440))
+
+                if event.type == pygame.MOUSEBUTTONDOWN: #ANGULO
+                    active = True
+                else:
+                    active = False
+
+                if(active == True):
+                    a += 10
+
+                pygame.display.update()
+        
+        while a == 2:
+            for event in pygame.event.get():
+                pygame.draw.rect(VENTANA, GRIS, [295, 400 , 200, 250])   #P2
+                Tanques.p2(VENTANA, 360, 365)
+
+                texto_ganador = fuente_base.render('Ganador - P2 ',True,(255,255,255))
+                VENTANA.blit(texto_ganador,(330 , 440))
+                
+                if event.type == pygame.MOUSEBUTTONDOWN: #ANGULO
+                    active = True
+                else:
+                    active = False
+
+                if(active == True):
+                    a += 10
+                
+                pygame.display.update()
+        
+        return 1
 
 def Juego():
     
@@ -134,10 +177,7 @@ def Juego():
     #VENTANA
     Angulo_usuario = ''
     Velocidad_usuario = ''
-    Angulo_usuario2 = ''
-    Velocidad_usuario2 = '' 
-    '''Rect_der_1 = pygame.Rect(700,460, 20,10)#Angulo der
-    Rect_der_2 = pygame.Rect(700,480, 20,10)#Velocidad der'''
+
     Rect_izq_1 = pygame.Rect(100,460, 50,25)#Angulo izq
     Rect_izq_2 = pygame.Rect(600,460, 50,25)#Velocidad izq
     
@@ -163,7 +203,6 @@ def Juego():
         texto_B_angulo = fuente_base.render(texto_angulo,True,(0,0,0))
         VENTANA.blit(texto_B_angulo,(Rect_izq_1.x - 90 , Rect_izq_1.y + 4))
         
-
     def Opciones_validar_vel():
         pygame.draw.rect(VENTANA, (255,255,255),( 250, 450, 5000 , 800))
         pygame.draw.rect(VENTANA, GRIS, Rect_izq_2,2) #Ventana velocidad
@@ -200,12 +239,13 @@ def Juego():
     """def Colision_balaterreno(bala):
         if ()"""
 
-    def check_colision(x, y):
+    def check_colision(x,y, a,b):
         if(Proyectil.colision_terreno(x, y) == False):
             return False
-
         if(Mapa.colisionBala_terreno(x,y) == False):
             return False
+        if(Tanques.col_proyectil_tanque(x,y, a,b) == True):
+            return True
 
 
     def spawn_tanques(mov_y): #animacion , escalar con un arreglo de randoms
@@ -213,10 +253,11 @@ def Juego():
         b =random.randint(1,2)
         
         xl1_1=random.randint(0,100)
-        yl1_1=((-0.5*xl1_1)-155)*-1 #Recta 1 - tanque 1
-        yl2_1=220                   #Recta 2 - tanque 1
+        yl1_1=((-0.5*xl1_1)-155)*-1     #Recta 1 - tanque 1
+        yl2_1=220                       #Recta 2 - tanque 1
         xl3_1=random.randint(210,300)
         yl3_1=((0.9*xl3_1)-400)*-1+40   #Recta 3 - tanque 1
+        
         if(a==1):
             coordenada1_1 = xl1_1
             coordenada1_2 = yl1_1+80
@@ -231,24 +272,14 @@ def Juego():
         yl1_2=((0.16*xl1_2)-265)*-1  #Recta 1 - tanque 2, recta compartida t1 y t2
         xl2_2 =random.randint(300,550)
         yl2_2 =((-0.32*xl2_2)-34)*-1+50  #Recta 2 - tanque 2
+        
         if(b==1):
             coordenada2_1 = xl1_2
             coordenada2_2 = yl1_2+80
         if(b==2):
             coordenada2_1 = xl2_2
             coordenada2_2 = yl2_2 
-    
-        Tanques.p1(VENTANA, coordenada1_1, coordenada1_2)
-        Tanques.p2(VENTANA, coordenada2_1,coordenada2_2)
-    
-        pygame.display.update()
-
-        elem_inciales()
-        Opciones_izq()
-        #Posicion definitiva tanques
-        Tanques.p1(VENTANA, coordenada1_1, coordenada1_2)
-        Tanques.p2(VENTANA, coordenada2_1,coordenada2_2)
-
+            
         return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
 
     def validar_angulo(x):
@@ -342,15 +373,16 @@ def Juego():
     turno = 1
     cont = 0
     active = False
+    fin_juego = 0
     while turno != 0: #PRINCIPAL
         
         if cont == 0:
             x1_1, y1_2, x2_1, y2_2 = spawn_tanques(0)
-            
-        else:
             Tanques.p1(VENTANA, x1_1, y1_2) #permanecia de tanques p1
             Tanques.p2(VENTANA, x2_1,y2_2)
-
+            pygame.draw.rect(VENTANA, ROJO, [x1_1, y1_2 , 60, 35]) #JUGADOR 1
+            pygame.draw.rect(VENTANA, AZUL, [x2_1, y2_2 , 60, 35]) #JUGADOR 2
+            
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -370,14 +402,19 @@ def Juego():
             t = 0
             posX_tanque = x1_1+25 # 2 pos tanques 1 def de proyectil
             posY_tanque = y1_2
+            col_posxT, col_posyT = x2_1, y2_2 #tanque destino
         
         #t = pygame.time.get_ticks()/1000 #en segundos
         #t = t #5 veces mas rapido
+
         time.sleep(0.002)
         t = t+0.02*10 #velocidad *5
-        x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque)
+        x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque-3)
 
-        colision = check_colision(x, y)
+        ''' COLSIONES '''
+
+        colision = check_colision(x, y, col_posxT, col_posyT)              # col_posxT, col_posyT = tanque destino
+        colision_suicidio = check_colision(x, y, posX_tanque, posY_tanque) # posX_tanque, posY_tanque = tanque emisor
         if(colision == False):
             turno = 0
             elem_inciales()
@@ -386,8 +423,28 @@ def Juego():
                 turno += 2
             else:
                 turno += 1
-            #time.sleep(0.5) #delay por turnos
+        if(colision == True):
+            turno = 0         
+            if(cont % 2 != 0):
+                turno += 1
+            else:
+                turno += 2
+            print("a ganado el jugador ", turno)
+            fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)
+        if(colision_suicidio == True):
+            turno = 0         
+            if(cont % 2 != 0):
+                turno += 2
+            else:
+                turno += 1
+            print("a ganado el jugador ", turno)
+            fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)
         
+        if(fin_juego == 1):
+            break
+        
+        ''' FIN COLISIONES '''
+
         Tanques.p1(VENTANA, x1_1, y1_2) #permanecia de tanques p1
         Tanques.p2(VENTANA, x2_1, y2_2)
 
@@ -403,5 +460,7 @@ def Juego():
             t = 0
             posX_tanque = x2_1+25 # 2 pos tanques 1 def de proyectil
             posY_tanque = y2_2
+            col_posxT = x1_1
+            col_posyT = y1_2
 
         clock.tick(60)
