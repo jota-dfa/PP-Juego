@@ -53,7 +53,6 @@ def Menu_principal():
         pygame.display.update()
         Reloj.tick(60)
  
- 
 def Opciones():
     correr = True
     while correr:
