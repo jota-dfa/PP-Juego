@@ -5,7 +5,7 @@ Reloj = pygame.time.Clock()
 from pygame.locals import *
 pygame.init()
 pygame.display.set_caption('Scorched World')
-VENTANA = pygame.display.set_mode((500, 500),0,32)
+VENTANA = pygame.display.set_mode((300, 500),0,32)
  
 FUENTE = pygame.font.SysFont(None, 35)
  
@@ -21,7 +21,7 @@ def Menu_principal():
     while True:
  
         VENTANA.fill((0,0,0))
-        Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 115, 110)
+        Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 115, 110) 
         Dibujar_texto('Opciones', FUENTE, (255,255,255),VENTANA, 90, 210)
         mx, my = pygame.mouse.get_pos()
  
