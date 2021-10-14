@@ -201,8 +201,8 @@ class InterfazJuego():
         return 1
 
     def altura_distancia():
-        altura = 'Altura maxima en m/s: '
-        distancia = 'Distancia maxima: '
+        altura = 'Altura maxima :              m/s'
+        distancia = 'Distancia maxima :              m'
         texto_altura = fuente_base.render(altura,True,(0,0,0))
         texto_distancia = fuente_base.render(distancia,True,(0,0,0))
         Rect =  pygame.Rect(0,20, 50,25)
@@ -215,7 +215,7 @@ class InterfazJuego():
         x = int(altura_maxima)
         altura = str(x)
         txt_altura = fuente_base.render(altura,True,(0,0,0))
-        VENTANA.blit(txt_altura,(Rect.x + 250 , Rect.y + 0))
+        VENTANA.blit(txt_altura,(Rect.x + 205 , Rect.y + 0))
 
     def dibujar_distancia(distancia_maxima):
         Rect =  pygame.Rect(0,20, 50,25)
