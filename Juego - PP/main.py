@@ -16,6 +16,7 @@ CAFE = (145, 105, 81)
 ROJO = (255, 0, 0)
 AZUL = (30, 45, 110)
 GRIS =  (131,139,139)
+VENTANA = pygame.display.set_mode((ANCHO, ALTO))
 
 fuente_base = pygame.font.Font(None,30)
 texto_angulo = 'Angulo'
@@ -199,6 +200,44 @@ class InterfazJuego():
         
         return 1
 
+    def altura_distancia():
+        altura = 'Altura maxima en m/s: '
+        distancia = 'Distancia maxima: '
+        texto_altura = fuente_base.render(altura,True,(0,0,0))
+        texto_distancia = fuente_base.render(distancia,True,(0,0,0))
+        Rect =  pygame.Rect(0,20, 50,25)
+        pygame.draw.rect(VENTANA, (255,255,255),( 0, 0, 1000, 50))
+        VENTANA.blit(texto_altura,(Rect.x + 10 , Rect.y + 0))
+        VENTANA.blit(texto_distancia,(Rect.x + 400,Rect.y + 0))
+
+    def dibujar_altura(altura_maxima):
+        Rect =  pygame.Rect(0,20, 50,25)
+        x = int(altura_maxima)
+        altura = str(x)
+        txt_altura = fuente_base.render(altura,True,(0,0,0))
+        VENTANA.blit(txt_altura,(Rect.x + 250 , Rect.y + 0))
+
+    def dibujar_distancia(distancia_maxima):
+        Rect =  pygame.Rect(0,20, 50,25)
+        x = int(distancia_maxima)
+        distancia = str(x)
+        txt_distancia = fuente_base.render(distancia,True,(0,0,0))
+        VENTANA.blit(txt_distancia,(Rect.x + 610 , Rect.y + 0))
+
+    def turno_jugador(jugador):
+        Rect =  pygame.Rect(0,460, 50,25)
+        jugador = str(jugador)
+        txt_jugadores_general = 'Jugador'
+        jugadores = fuente_base.render(txt_jugadores_general,True,(0,0,0))
+        txt_jugador = fuente_base.render(jugador,True,(0,0,0))
+        VENTANA.blit(txt_jugador,(Rect.x + 410 , Rect.y + 0))
+        VENTANA.blit(jugadores,(Rect.x + 300 , Rect.y + 0))
+
+
+
+
+
+
 def Juego():
     
     ##### FUNCIONES PRINCIPALES DEL JUEGO ######
@@ -215,7 +254,6 @@ def Juego():
 
     def Opciones_izq(): # objetos
         pygame.draw.rect(VENTANA, (255,255,255),( 0, 450, 1000, 600))
-        
         pygame.draw.rect(VENTANA, GRIS, Rect_izq_1,2) #Ventana angulo
         pygame.draw.rect(VENTANA, GRIS, Rect_izq_2,2) #Ventana
         
@@ -608,9 +646,11 @@ def Juego():
                 pygame.quit()
                 sys.exit()
 
-        pygame.display.update()  #Actualizacion ventana
+        pygame.display.update()  #Actualizacion ventana       
+        InterfazJuego.altura_distancia()         
 
         if turno == 1:
+            InterfazJuego.turno_jugador(turno)
             print("\nJUGADOR 1")
             angulo_usuario = evento_angulo()
             velocidad_usuario = evento_velocidad()
@@ -625,13 +665,13 @@ def Juego():
             col_posxT, col_posyT = x2_1, y2_2 #tanque destino
             alt_max = Altura_maximo(velocidad , angulo)
             print("ALTURA MAXIMA", alt_max)        
-        #t = pygame.time.get_ticks()/1000 #en segundos
-        #t = t #5 veces mas rapido
 
         time.sleep(0.002)
         t = t+0.02*10 #velocidad *5
         x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque-3)
         dMax = Distancia_maximo(posX_tanque , posY_tanque , x , y)
+        InterfazJuego.dibujar_altura(alt_max)
+        InterfazJuego.dibujar_distancia(dMax)
         ''' COLSIONES '''
 
         colision = check_colision(x, y, col_posxT, col_posyT)              # col_posxT, col_posyT = tanque destino
@@ -670,6 +710,7 @@ def Juego():
         Tanques.p2(VENTANA, x2_1, y2_2,seleccion_mapa)
 
         if turno == 2:
+            InterfazJuego.turno_jugador(turno)
             print("\nJUGADOR 2")
             angulo_usuario = evento_angulo()
             velocidad_usuario = evento_velocidad()
