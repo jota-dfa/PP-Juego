@@ -4,6 +4,11 @@ import math
 import time
 import random
 
+import Mapa
+import Tanques
+import Proyectil
+import InterfazJuego
+
 pygame.font.init()
 #GLOBALES - CONSTANTES
 ALTO = 500
@@ -22,221 +27,6 @@ fuente_base = pygame.font.Font(None,30)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 seleccion_mapa = 1 #random.randint(1,3)
- 
-class Mapa():
-
-    def __init__(self) -> None:
-        pass
-        
-    def terreno(VENTANA,seleccion_mapa):
-            
-            if(seleccion_mapa==1):
-                piso = pygame.image.load("imagenes/piso.png")
-                VENTANA.blit(piso, (0, 0))
-
-            if(seleccion_mapa==2):
-                piso = pygame.image.load("imagenes/piso_2.png")
-                VENTANA.blit(piso, (0, 20))
-
-            if(seleccion_mapa==3):
-                piso = pygame.image.load("imagenes/piso_3.png")
-                VENTANA.blit(piso, (0, 20))
-
-    def colisionBala_terreno(x, y, seleccion_mapa):
-        if seleccion_mapa == 1:
-            if x > 0 and x < 100:   #Recta 1
-                a = ((-0.5*x-190)*-1)-y
-                if a<-60:         
-                    print("RECT 1")
-                    return False            
-            if x > 100 and x < 200: #Recta 2
-                b = ((-240)*-1)-y
-                if b<-60:         
-                    print("RECT 2")
-                    return False            
-            if x > 200 and x < 300: #Recta 3
-                c = ((0.9*x-420)*-1)-y
-                if c<-60:         
-                    print("RECT 3")
-                    return False
-            if x > 300 and x < 500: #Recta 4
-                d = ((-0.3*x-60)*-1)-y
-                if d<-60:         
-                    print("RECT 4")
-                    return False
-            if x >550 and x < 800:  #Recta 5
-                f = ((0.16*x-318)*-1)-y
-                if f<-60:         
-                    print("RECT 5")
-                    return False
-
-     
-class Tanques():
-
-    def __init__(self, coordenada1_1,coordenada1_2, x_proyect,y_proyect,a_posT,b_posT,seleccion_mapa):
-        self.coordenada1_1 = coordenada1_1
-        self.coordenada1_2 = coordenada1_2
-
-        self.x_proyect = x_proyect
-        self.y_proyect = y_proyect
-        self.a_posT = a_posT
-        self.b_posT = b_posT
-        self.seleccion_mapa = seleccion_mapa
-        
-
-    def p1(VENTANA, coordenada1_1, coordenada1_2,seleccion_mapa): # b = random
-        if(seleccion_mapa==1):
-            tanque_1 = pygame.image.load("imagenes/tanque_1.png")
-            VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2)) 
-
-        if(seleccion_mapa==2):
-            tanque_1 = pygame.image.load("imagenes/tanque_11.png")
-            VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2))
-        
-        if(seleccion_mapa==3):
-            tanque_1 = pygame.image.load("imagenes/tanque_111.png")
-            VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2))
-        
-
-    def p2(VENTANA, b, y,seleccion_mapa): # a = random
-        if(seleccion_mapa==1):
-            tanque_2 = pygame.image.load("imagenes/tanque_2.png")
-            VENTANA.blit(tanque_2, (b, y))
-        if(seleccion_mapa==2):
-            tanque_2 = pygame.image.load("imagenes/tanque_22.png")
-            VENTANA.blit(tanque_2, (b, y))   
-        if(seleccion_mapa==3):
-            tanque_2 = pygame.image.load("imagenes/tanque_222.png")
-            VENTANA.blit(tanque_2, (b, y))  
-
-    def col_proyectil_tanque(x_proyect, y_proyect, a_posT, b_posT):
-        if(x_proyect >= a_posT and x_proyect <= a_posT+60):
-            if(y_proyect >= b_posT and y_proyect <= b_posT+35):
-                #print("Ok_colison_proyectil_tanque")
-                return True      
-
-class Proyectil():
-    
-    def __init__(self, v,g,t,posXTanque, posYTanque):
-        self.v = v # velocidad inicial
-        self.g = g #9.8
-        self.t = t # inicial 0
-        self.posXTanque = posXTanque
-        self.posYTanque = posYTanque
-
-    '''Trayectoria de tiro Parabolico'''
-
-    # v = velocidad // g = c. gravedad // t = tiempo // angl = angulo(rad) #
-    # (x,y) = valores en ventana // (x, y_real) = valores reales de la ec.trayectoria #
-    
-    def pr_trayectoria(v, g, t, angl, posXTanque, posYTanque): 
-        x = posXTanque+v*(math.cos(angl))*t # posTanque+v*(math.cos(angl))*t , posTanque =  posicion tanque 
-        y_real = v*(math.sin(angl))*t-(g*t**2)/2
-        y = posYTanque - y_real
-        #print(x, y_real) #valores reales de ec. parabolica --> y_real
-        return x, y
-    
-    '''Dibuja Proyectil'''
-    def dibu_proyectil(x, y, VENTANA):
-        proyectil = [pygame.draw.circle(VENTANA, NEGRO, (x, y), 2, 0)] #Ciculo
-
-    '''Angulo --> Radian'''
-    def grad_a_rad(angulo):
-        rad = 0.0
-        rad = angulo*(3.1415/180) #0.01745
-        #print("rad: ",rad)
-        return rad
-
-    '''Colisiones proyectil'''
-    def colision_terreno(x,y):        
-        if(x<=0 or x>=800):
-            return False
-        '''if(y>=400): ####colision terreno planoooooooooooooooooooo
-            return False'''
-
-class InterfazJuego():
-    
-    def __init__(self) -> None:
-        pass
-
-    def pantalla_ganador(VENTANA, a):
-        fondo = pygame.image.load("imagenes/fondo_ganador.jpg")
-        VENTANA.blit(fondo, (0, 0))
-        while a == 1:
-            for event in pygame.event.get():
-                pygame.draw.rect(VENTANA, GRIS, [295, 400 , 200, 250])   #P1
-                Tanques.p1(VENTANA, 360, 365, seleccion_mapa)
-                
-                texto_ganador = fuente_base.render('Ganador - P1 ',True,(255,255,255))
-                VENTANA.blit(texto_ganador,(330 , 440))
-
-                if event.type == pygame.MOUSEBUTTONDOWN: #ANGULO
-                    active = True
-                else:
-                    active = False
-
-                if(active == True):
-                    a += 10
-
-                pygame.display.update()
-        
-        while a == 2:
-            for event in pygame.event.get():
-                pygame.draw.rect(VENTANA, GRIS, [295, 400 , 200, 250])   #P2
-                Tanques.p2(VENTANA, 360, 365, seleccion_mapa)
-
-                texto_ganador = fuente_base.render('Ganador - P2 ',True,(255,255,255))
-                VENTANA.blit(texto_ganador,(330 , 440))
-                
-                if event.type == pygame.MOUSEBUTTONDOWN: #ANGULO
-                    active = True
-                else:
-                    active = False
-
-                if(active == True):
-                    a += 10
-                
-                pygame.display.update()
-        
-        return 1
-
-    def altura_distancia():
-        altura = 'Altura maxima en m/s: '
-        distancia = 'Distancia maxima: '
-        texto_altura = fuente_base.render(altura,True,(0,0,0))
-        texto_distancia = fuente_base.render(distancia,True,(0,0,0))
-        Rect =  pygame.Rect(0,20, 50,25)
-        pygame.draw.rect(VENTANA, (255,255,255),( 0, 0, 1000, 50))
-        VENTANA.blit(texto_altura,(Rect.x + 10 , Rect.y + 0))
-        VENTANA.blit(texto_distancia,(Rect.x + 400,Rect.y + 0))
-
-    def dibujar_altura(altura_maxima):
-        Rect =  pygame.Rect(0,20, 50,25)
-        x = int(altura_maxima)
-        altura = str(x)
-        txt_altura = fuente_base.render(altura,True,(0,0,0))
-        VENTANA.blit(txt_altura,(Rect.x + 250 , Rect.y + 0))
-
-    def dibujar_distancia(distancia_maxima):
-        Rect =  pygame.Rect(0,20, 50,25)
-        x = int(distancia_maxima)
-        distancia = str(x)
-        txt_distancia = fuente_base.render(distancia,True,(0,0,0))
-        VENTANA.blit(txt_distancia,(Rect.x + 610 , Rect.y + 0))
-
-    def turno_jugador(jugador):
-        Rect =  pygame.Rect(0,460, 50,25)
-        jugador = str(jugador)
-        txt_jugadores_general = 'Jugador'
-        jugadores = fuente_base.render(txt_jugadores_general,True,(0,0,0))
-        txt_jugador = fuente_base.render(jugador,True,(0,0,0))
-        VENTANA.blit(txt_jugador,(Rect.x + 410 , Rect.y + 0))
-        VENTANA.blit(jugadores,(Rect.x + 300 , Rect.y + 0))
-
-
-
-
-
 
 def Juego():
     
@@ -292,7 +82,7 @@ def Juego():
             fondo = pygame.image.load("imagenes/fondo_4.png")
             VENTANA.blit(fondo, (0, 0))
         #TERRENO
-        Mapa.terreno(VENTANA,seleccion_mapa)
+        Mapa.Mapa.terreno(VENTANA,seleccion_mapa)
         #TANQUES
         #Tanques.p1(VENTANA)
         #Tanques.p2(VENTANA)
@@ -304,10 +94,10 @@ def Juego():
 
     #PROYECTILES
     def proyectil(t, v, angl, posX, posY): # a,b posTanques
-        tr_x, tr_y = Proyectil.pr_trayectoria(v, 9.8, t, angl, posX, posY)
+        tr_x, tr_y = Proyectil.Proyectil.pr_trayectoria(v, 9.8, t, angl, posX, posY)
         #colision_terreno = True
-        colision_terreno = Proyectil.colision_terreno(tr_x, tr_y)
-        Proyectil.dibu_proyectil(tr_x, tr_y, VENTANA)
+        colision_terreno = Proyectil.Proyectil.colision_terreno(tr_x, tr_y)
+        Proyectil.Proyectil.dibu_proyectil(tr_x, tr_y, VENTANA)
         return tr_x, tr_y
 
     def Distancia_maximo(x1, y1 ,x , y ):
@@ -321,12 +111,12 @@ def Juego():
         return alt_max
 
     def check_colision(x,y, a,b):
-        if(Proyectil.colision_terreno(x, y) == False):
+        if(Proyectil.Proyectil.colision_terreno(x, y) == False):
             return False
-        if(Mapa.colisionBala_terreno(x,y , seleccion_mapa) == False):
+        if(Mapa.Mapa.colisionBala_terreno(x,y , seleccion_mapa) == False):
             print("DISTANCIA MAXIMA",dMax)
             return False
-        if(Tanques.col_proyectil_tanque(x,y, a,b) == True):
+        if(Tanques.Tanques.col_proyectil_tanque(x,y, a,b) == True):
             return True
 
 
@@ -634,12 +424,23 @@ def Juego():
     cont = 0
     active = False
     fin_juego = 0
+
+    listaProyectiles = []
+    listaProyectilesB = []
+    listaProyectiles = Proyectil.Proyectil.proyectiles(listaProyectiles)
+    listaProyectilesB = Proyectil.Proyectil.proyectiles(listaProyectilesB)
+    vida = [100, 100]
+
     while turno != 0: #PRINCIPAL
         
         if cont == 0:
             x1_1, y1_2, x2_1, y2_2 = spawn_tanques(0,seleccion_mapa)
-            Tanques.p1(VENTANA, x1_1, y1_2,seleccion_mapa) #permanecia de tanques p1
-            Tanques.p2(VENTANA, x2_1,y2_2,seleccion_mapa)
+            Tanques.Tanques.p1(VENTANA, x1_1, y1_2,seleccion_mapa) #permanecia de tanques p1
+            Tanques.Tanques.p2(VENTANA, x2_1,y2_2,seleccion_mapa)
+            vida = Tanques.Tanques.vida(VENTANA, vida, 0, 0)
+
+        vida = Tanques.Tanques.vida(VENTANA, vida, 0, 0)
+        pygame.display.update()
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -647,22 +448,26 @@ def Juego():
                 sys.exit()
 
         pygame.display.update()  #Actualizacion ventana       
-        InterfazJuego.altura_distancia()         
+        InterfazJuego.InterfazJuego.altura_distancia()         
 
         if turno == 1:
-            InterfazJuego.turno_jugador(turno)
+            InterfazJuego.InterfazJuego.turno_jugador(turno)
+            
             print("\nJUGADOR 1")
-            angulo_usuario = evento_angulo()
-            velocidad_usuario = evento_velocidad()
-            velocidad = validar_velocidad(int(velocidad_usuario))
-            angulo = validar_angulo(float(angulo_usuario)) 
-            angulo = Proyectil.grad_a_rad(angulo)
+            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x1_1, y1_2)
+            listaProyectiles, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, x1_1+10, y1_2-190, listaProyectiles)
+            print(listaProyectiles[opcProyectil][2])
+
+            angulo_usuario, velocidad_usuario = evento_angulo(), evento_velocidad()
+            velocidad, angulo = validar_velocidad(int(velocidad_usuario)), validar_angulo(float(angulo_usuario)) 
+            angulo = Proyectil.Proyectil.grad_a_rad(angulo)
+            posX_tanque, posY_tanque = ((x1_1+25), y1_2) # tanque emisor
+            col_posxT, col_posyT = x2_1, y2_2 # tanque destino
+            
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
             t = 0
-            posX_tanque = x1_1+25 # 2 pos tanques 1 def de proyectil
-            posY_tanque = y1_2
-            col_posxT, col_posyT = x2_1, y2_2 #tanque destino
+            
             alt_max = Altura_maximo(velocidad , angulo)
             print("ALTURA MAXIMA", alt_max)        
 
@@ -670,60 +475,85 @@ def Juego():
         t = t+0.02*10 #velocidad *5
         x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque-3)
         dMax = Distancia_maximo(posX_tanque , posY_tanque , x , y)
-        InterfazJuego.dibujar_altura(alt_max)
-        InterfazJuego.dibujar_distancia(dMax)
+        InterfazJuego.InterfazJuego.dibujar_altura(alt_max)
+        InterfazJuego.InterfazJuego.dibujar_distancia(dMax)
+        
         ''' COLSIONES '''
 
         colision = check_colision(x, y, col_posxT, col_posyT)              # col_posxT, col_posyT = tanque destino
         colision_suicidio = check_colision(x, y, posX_tanque, posY_tanque) # posX_tanque, posY_tanque = tanque emisor
-        if(colision == False):
-            turno = 0
+        if(colision == False): # cambiar_1 , line 460-488             
             elem_inciales(seleccion_mapa)
             Opciones_izq()            
             if(cont % 2 != 0):
-                turno += 2
+                #turno 1
+                turno = 2
             else:
-                turno += 1
-        if(colision == True):
-            turno = 0         
+                #turno 2
+                turno = 1
+
+        if(colision == True):       
+            elem_inciales(seleccion_mapa)
+            Opciones_izq()
             if(cont % 2 != 0):
-                turno += 1
+                turno = 2
             else:
-                turno += 2
-            print("a ganado el jugador ", turno)
-            fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)
-        if(colision_suicidio == True):
-            turno = 0         
+                turno = 1
+            vida = Tanques.Tanques.vida(VENTANA, vida, listaProyectiles[opcProyectil][1], turno)
+            pygame.display.update()
+            #print("a ganado el jugador ", turno)
+            #fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)
+
+        vida = Tanques.Tanques.vida(VENTANA, vida, 0, 0)
+        pygame.display.update()
+
+        if(colision_suicidio == True):      
+            elem_inciales(seleccion_mapa)
+            Opciones_izq()
             if(cont % 2 != 0):
-                turno += 2
+                turno = 2
+                id = 1
             else:
-                turno += 1
-            print("a ganado el jugador ", turno)
-            fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)
+                turno = 1
+                id = 2
+            vida = Tanques.Tanques.vida(VENTANA, vida, listaProyectiles[opcProyectil][1], id)
+            pygame.display.update()
+            #print("a ganado el jugador ", turno)
+            #fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)
         
+        if(vida[0] <= 0):
+            fin_juego = InterfazJuego.InterfazJuego.pantalla_ganador(VENTANA, 2)
+        if(vida[1] <= 0):
+            fin_juego = InterfazJuego.InterfazJuego.pantalla_ganador(VENTANA, 1)
+
         if(fin_juego == 1):
             break
-        
+
         ''' FIN COLISIONES '''
 
-        Tanques.p1(VENTANA, x1_1, y1_2,seleccion_mapa) #permanecia de tanques p1
-        Tanques.p2(VENTANA, x2_1, y2_2,seleccion_mapa)
+        Tanques.Tanques.p1(VENTANA, x1_1, y1_2,seleccion_mapa) #permanecia de tanques p1
+        Tanques.Tanques.p2(VENTANA, x2_1, y2_2,seleccion_mapa)
 
         if turno == 2:
-            InterfazJuego.turno_jugador(turno)
+            InterfazJuego.InterfazJuego.turno_jugador(turno)
+            
             print("\nJUGADOR 2")
-            angulo_usuario = evento_angulo()
-            velocidad_usuario = evento_velocidad()
-            velocidad = validar_velocidad(int(velocidad_usuario))
-            angulo = validar_angulo(float(angulo_usuario))
-            angulo = Proyectil.grad_a_rad(angulo)
+            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x2_1, y2_2)
+            listaProyectilesB, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, x2_1+10, y2_2-190, listaProyectilesB)
+            print(listaProyectiles[opcProyectil][2])
+
+            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 2, x2_1, y2_2)
+            angulo_usuario, velocidad_usuario = evento_angulo(), evento_velocidad()
+            velocidad, angulo = validar_velocidad(int(velocidad_usuario)), validar_angulo(float(angulo_usuario))
+            angulo = Proyectil.Proyectil.grad_a_rad(angulo)
+            posX_tanque, posY_tanque = ((x2_1+25), y2_2)    # pos(x,y) tanque emisor / x+25 = mitad del tanque
+            col_posxT, col_posyT = (x1_1, y1_2)
+            
             turno += 5 #condicion de no entrada
             cont += 1
             t = 0
-            posX_tanque = x2_1+25 # 2 pos tanques 1 def de proyectil
-            posY_tanque = y2_2
-            col_posxT = x1_1
-            col_posyT = y1_2
+
             alt_max = Altura_maximo(velocidad , angulo)
             print("ALTURA MAXIMA", alt_max)
+            
         clock.tick(60)
