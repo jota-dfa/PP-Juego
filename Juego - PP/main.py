@@ -475,8 +475,6 @@ def Juego():
         t = t+0.02*10 #velocidad *5
         x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque-3)
         dMax = Distancia_maximo(posX_tanque , posY_tanque , x , y)
-        InterfazJuego.InterfazJuego.dibujar_altura(alt_max)
-        InterfazJuego.InterfazJuego.dibujar_distancia(dMax)
         
         ''' COLSIONES '''
 
@@ -555,5 +553,6 @@ def Juego():
 
             alt_max = Altura_maximo(velocidad , angulo)
             print("ALTURA MAXIMA", alt_max)
-            
+        InterfazJuego.InterfazJuego.dibujar_altura(alt_max)
+        InterfazJuego.InterfazJuego.dibujar_distancia(dMax)            
         clock.tick(60)

@@ -137,28 +137,29 @@ class InterfazJuego():
         return 1
 
     def altura_distancia():
-        altura = 'Altura maxima en m/s: '
-        distancia = 'Distancia maxima: '
-        texto_altura = fuente_base.render(altura,True,(0,0,0))
-        texto_distancia = fuente_base.render(distancia,True,(0,0,0))
-        Rect =  pygame.Rect(0,20, 50,25)
-        pygame.draw.rect(VENTANA, (255,255,255),( 0, 0, 1000, 50))
+        Fuente = pygame.font.Font(None,30)
+        altura = 'Altura:                m '
+        distancia = 'Distancia:                m'
+        texto_altura = Fuente.render(altura,True,(0,0,0))
+        texto_distancia = Fuente.render(distancia,True,(0,0,0))
+        Rect =  pygame.Rect( 100, 425, 600, 25)
+        pygame.draw.rect(VENTANA, (255,255,255),( 100, 425, 600, 25))
         VENTANA.blit(texto_altura,(Rect.x + 10 , Rect.y + 0))
-        VENTANA.blit(texto_distancia,(Rect.x + 400,Rect.y + 0))
+        VENTANA.blit(texto_distancia,(Rect.x + 350,Rect.y + 0))
 
     def dibujar_altura(altura_maxima):
-        Rect =  pygame.Rect(0,20, 50,25)
+        Rect =  pygame.Rect( 100, 425, 600, 25)
         x = int(altura_maxima)
         altura = str(x)
         txt_altura = fuente_base.render(altura,True,(0,0,0))
-        VENTANA.blit(txt_altura,(Rect.x + 250 , Rect.y + 0))
+        VENTANA.blit(txt_altura,(Rect.x + 100 , Rect.y + 0))
 
     def dibujar_distancia(distancia_maxima):
-        Rect =  pygame.Rect(0,20, 50,25)
+        Rect =  pygame.Rect( 100, 425, 600, 25)
         x = int(distancia_maxima)
         distancia = str(x)
         txt_distancia = fuente_base.render(distancia,True,(0,0,0))
-        VENTANA.blit(txt_distancia,(Rect.x + 610 , Rect.y + 0))
+        VENTANA.blit(txt_distancia,(Rect.x + 500 , Rect.y + 0))
 
     def turno_jugador(jugador):
         Rect =  pygame.Rect(0,460, 50,25)
