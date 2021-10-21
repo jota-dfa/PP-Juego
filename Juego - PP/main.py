@@ -26,7 +26,7 @@ VENTANA = pygame.display.set_mode((ANCHO, ALTO))
 fuente_base = pygame.font.Font(None,30)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
-seleccion_mapa = 3 #random.randint(1,3)
+seleccion_mapa = 2 #random.randint(1,3)
 
 def Juego():
     
