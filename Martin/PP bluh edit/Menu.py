@@ -21,7 +21,7 @@ def Menu_principal():
     while True:
  
         VENTANA.fill((0,0,0))
-        Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 115, 110) 
+        Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 115, 110)
         Dibujar_texto('Opciones', FUENTE, (255,255,255),VENTANA, 90, 210)
         mx, my = pygame.mouse.get_pos()
  
@@ -52,6 +52,7 @@ def Menu_principal():
  
         pygame.display.update()
         Reloj.tick(60)
+ 
  
 def Opciones():
     correr = True

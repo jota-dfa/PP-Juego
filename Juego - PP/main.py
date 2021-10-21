@@ -26,7 +26,7 @@ VENTANA = pygame.display.set_mode((ANCHO, ALTO))
 fuente_base = pygame.font.Font(None,30)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
-seleccion_mapa = 1 #random.randint(1,3)
+seleccion_mapa = 3 #random.randint(1,3)
 
 def Juego():
     
@@ -475,6 +475,8 @@ def Juego():
         t = t+0.02*10 #velocidad *5
         x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque-3)
         dMax = Distancia_maximo(posX_tanque , posY_tanque , x , y)
+        InterfazJuego.InterfazJuego.dibujar_altura(alt_max)
+        InterfazJuego.InterfazJuego.dibujar_distancia(dMax)
         
         ''' COLSIONES '''
 
@@ -534,7 +536,7 @@ def Juego():
 
         if turno == 2:
             InterfazJuego.InterfazJuego.turno_jugador(turno)
-            
+            InterfazJuego.InterfazJuego.altura_distancia()
             print("\nJUGADOR 2")
             InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x2_1, y2_2)
             listaProyectilesB, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, x2_1+10, y2_2-190, listaProyectilesB)
@@ -553,6 +555,5 @@ def Juego():
 
             alt_max = Altura_maximo(velocidad , angulo)
             print("ALTURA MAXIMA", alt_max)
-        InterfazJuego.InterfazJuego.dibujar_altura(alt_max)
-        InterfazJuego.InterfazJuego.dibujar_distancia(dMax)            
+            
         clock.tick(60)
