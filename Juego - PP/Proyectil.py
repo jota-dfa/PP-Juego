@@ -48,12 +48,25 @@ class Proyectil():
         lista.append(['por defecto', 10, 0])
 
         #proyectil 105mm (50 dmg, 3 unidades)
-        lista.append(['105mm', 50, 3])
+        lista.append(['105mm ', 50, 3])
         
         #proyectil perforante (40 dmg, 10 undidades)
-        lista.append(['Perforante', 40, 10])
+        lista.append(['Perfor', 40, 9])
         
         #proyectil 60mmm (30 dmg, 3 unidades)
-        lista.append(['60mm', 30, 3])
+        lista.append(['60mm ', 30, 3])
 
         return lista
+
+    def restaProyectiles(listaProyectiles, opc):
+
+        if opc == 0:
+            listaProyectiles[opc][2] = listaProyectiles[opc][2]-1
+        if opc == 1:
+            listaProyectiles[opc][2] = listaProyectiles[opc][2]-1
+        if opc == 2:
+            listaProyectiles[opc][2] = listaProyectiles[opc][2]-1
+        if opc == 3:
+            listaProyectiles[opc][2] = listaProyectiles[opc][2]-1
+        
+        return listaProyectiles

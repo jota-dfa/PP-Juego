@@ -358,67 +358,120 @@ def Juego():
             velocidad_usuario = y
             return velocidad_usuario         
 
-    def evento_angulo():
-        salir = 0
+    def turno_1(posxEmisor, posyEmisor, posxDestino, posyDestino, listaProyectiles, turno):
+        
+        boton_rectangulo = pygame.Rect([0, 0, 40, 40])
+        #Rect_izq_1 = pygame.Rect(100,460, 50,25)#Angulo izq
+        #Rect_izq_2 = pygame.Rect(600,460, 50,25)#Velocidad izq
+        xEmisor, yEmisor = posxEmisor+10, posyEmisor-190
+      
+        opcProyectil = 0#listaProyectiles[0][2]
         angulo_usuario = ''
-        active = False
-        while salir == 0:
-            for event in pygame.event.get():
-                
-                if event.type == pygame.MOUSEBUTTONDOWN: #ANGULO
-                    if Rect_izq_1.collidepoint(event.pos):
-                        active = True
-                    else:
-                        active = False
-
-                if event.type == pygame.KEYDOWN:
-                    if active == True:
-                        if event.key == pygame.K_BACKSPACE:
-                            angulo_usuario = angulo_usuario[:-1]
-                        if event.key == pygame.K_SPACE: ###########
-                            salir = 1
-                        else:
-                            angulo_usuario += event.unicode
-
-                text_surface = fuente_base.render(angulo_usuario, True,(0,0,0))
-                VENTANA.blit(text_surface,(Rect_izq_1.x + 3, Rect_izq_1.y + 3))
-                Rect_izq_1.w = max(100, text_surface.get_width() + 10)
-
-                pygame.display.update()
-                clock.tick(60)
-
-        return angulo_usuario
-
-    def evento_velocidad():
-        salir = 0
         velocidad_usuario = ''
-        active = False
-        while salir == 0:
+        fin_turno = 0
+        active = 0
+        active1 = False
+        active2 = False
+        while fin_turno == 0:
+
+            text_surface1 = fuente_base.render(angulo_usuario, True,(0,0,0))
+            text_surface2 = fuente_base.render(velocidad_usuario, True,(0,0,0))
+            
+            boton = pygame.image.load("imagenes/button_reset_n.png")
+            VENTANA.blit(boton, (0, 0))
+            
+            if listaProyectiles[1][2] == 0 and listaProyectiles[2][2] == 0 and listaProyectiles[3][2] == 0:
+                if turno == 1:
+                    vida[0] = 0
+                if turno == 2:
+                    vida[1]= 0
+                return 1,0,0,0,0,0,0,listaProyectiles, opcProyectil
+
             for event in pygame.event.get():
+
+                """if boton_rectangulo.collidepoint(event.pos):
+                        boton = pygame.image.load("imagenes/button_reset_r.png")
+                        VENTANA.blit(boton, (0, 0))
+                else:
+                        boton = pygame.image.load("imagenes/button_reset_n.png")
+                        VENTANA.blit(boton, (0, 0))""" 
 
                 if event.type == pygame.MOUSEBUTTONDOWN: #VELOCIDAD
-                    if Rect_izq_2.collidepoint(event.pos):
-                        active = True
+                
+                    """ boton reinicio """
+                    if boton_rectangulo.collidepoint(event.pos):
+                        return 1,0,0,0,0,0,0,listaProyectiles, opcProyectil
+                    
+                    """ rectangulo angulo """
+                    if Rect_izq_1.collidepoint(event.pos):
+                        active1 = True
+                        active2 = False
                     else:
-                        active = False
+                        active1 = False
+                
+                    """ rectangulo velocidad """
+                    if Rect_izq_2.collidepoint(event.pos):
+                        active2 = True
+                        active1 = False
+                    else:
+                        active2 = False
 
                 if event.type == pygame.KEYDOWN:
-                    if active == True:
-                        if event.key == pygame.K_BACKSPACE:
-                            velocidad_usuario = velocidad_usuario[:-1]
-                        if event.key == pygame.K_SPACE: ###############
-                            salir = 1
-                        else:
-                            velocidad_usuario += event.unicode
+                    
+                    previo = event.unicode
 
-                text_surface = fuente_base.render(velocidad_usuario, True,(0,0,0))
-                VENTANA.blit(text_surface,(Rect_izq_2.x + 3, Rect_izq_2.y + 3))
-                Rect_izq_2.w = max(100, text_surface.get_width() + 10)
+                    if event.key == pygame.K_SPACE: ###############
+                        listaProyectiles = Proyectil.Proyectil.restaProyectiles(listaProyectiles, opcProyectil)
+                        fin_turno = 1
+
+                    """ input texto velocidad y angulo"""
+                    if previo != 'i':    
+                        if active1 == True:
+                            if event.key == pygame.K_BACKSPACE:
+                                angulo_usuario = angulo_usuario[:-1]
+                            else:
+                                angulo_usuario += event.unicode
+
+                        if active2 == True:
+                            if event.key == pygame.K_BACKSPACE:
+                                velocidad_usuario = velocidad_usuario[:-1]
+                            else:
+                                velocidad_usuario += event.unicode
+
+                    if previo == 'i':
+                        listaProyectiles, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, xEmisor, yEmisor, listaProyectiles)
+                        elem_inciales(seleccion_mapa)
+                        Opciones_izq()
+                        if turno == 1:
+                            Tanques.Tanques.p1(VENTANA, posxEmisor, posyEmisor,seleccion_mapa) #permanecia de tanques p1
+                            Tanques.Tanques.p2(VENTANA, posxDestino, posyDestino,seleccion_mapa)
+                        if turno == 2:
+                            Tanques.Tanques.p2(VENTANA, posxEmisor, posyEmisor,seleccion_mapa) #permanecia de tanques p1
+                            Tanques.Tanques.p1(VENTANA, posxDestino, posyDestino,seleccion_mapa)
+                        InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, turno, posxEmisor, posyEmisor)
+                        Tanques.Tanques.vida(VENTANA, vida, 0, 0)
+                        InterfazJuego.InterfazJuego.turno_jugador(turno)
+                        InterfazJuego.InterfazJuego.altura_distancia()
+
+                    if previo == ' ':
+                        if (angulo_usuario == '' or velocidad_usuario == ''):
+                            fin_turno = 0
+
+                VENTANA.blit(text_surface1,(Rect_izq_1.x + 3, Rect_izq_1.y + 3))
+                Rect_izq_1.w = max(100, text_surface1.get_width() + 10)
+
+                VENTANA.blit(text_surface2,(Rect_izq_2.x + 3, Rect_izq_2.y + 3))
+                Rect_izq_2.w = max(100, text_surface2.get_width() + 10)
 
                 pygame.display.update()
-                clock.tick(60)
 
-        return velocidad_usuario
+        """ validaciones """        
+        angulo_usuario, velocidad_usuario = validar_angulo(int(angulo_usuario)), validar_velocidad(float(velocidad_usuario))
+        angulo_usuario = Proyectil.Proyectil.grad_a_rad(angulo_usuario)
+        posxEmisor, posyEmisor = ((posxEmisor+25), posyEmisor)
+
+        return 0, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino, listaProyectiles, opcProyectil
+                 
 
     turno = 1
     cont = 0
@@ -451,11 +504,22 @@ def Juego():
         InterfazJuego.InterfazJuego.altura_distancia()         
 
         if turno == 1:
-            InterfazJuego.InterfazJuego.turno_jugador(turno)
+            print("\nJUGADOR 1")
+            #fin_juego, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino
+            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x1_1, y1_2)
+            fin_juego, angulo, velocidad, posX_tanque, posY_tanque, col_posxT, col_posyT, listaProyectiles, opcProyectil = turno_1(x1_1, y1_2, x2_1, y2_2, listaProyectiles, 1)
+            
+            t = 0
+            alt_max = Altura_maximo(velocidad , angulo)
+            turno += 5 #no entrada
+            cont += 1 #Contador de turnos
+            
+            """InterfazJuego.InterfazJuego.turno_jugador(turno)
             
             print("\nJUGADOR 1")
             InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x1_1, y1_2)
             listaProyectiles, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, x1_1+10, y1_2-190, listaProyectiles)
+            fin_juego = InterfazJuego.InterfazJuego.botonReinicio()
             print(listaProyectiles[opcProyectil][2])
 
             angulo_usuario, velocidad_usuario = evento_angulo(), evento_velocidad()
@@ -469,7 +533,8 @@ def Juego():
             t = 0
             
             alt_max = Altura_maximo(velocidad , angulo)
-            print("ALTURA MAXIMA", alt_max)        
+            print("ALTURA MAXIMA", alt_max)   """    
+
 
         time.sleep(0.002)
         t = t+0.02*10 #velocidad *5
@@ -534,11 +599,23 @@ def Juego():
         Tanques.Tanques.p1(VENTANA, x1_1, y1_2,seleccion_mapa) #permanecia de tanques p1
         Tanques.Tanques.p2(VENTANA, x2_1, y2_2,seleccion_mapa)
 
+        InterfazJuego.InterfazJuego.turno_jugador(turno)
+        InterfazJuego.InterfazJuego.altura_distancia()
+
         if turno == 2:
-            InterfazJuego.InterfazJuego.turno_jugador(turno)
-            InterfazJuego.InterfazJuego.altura_distancia()
             print("\nJUGADOR 2")
-            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x2_1, y2_2)
+            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 2, x2_1, y2_2)
+            fin_juego, angulo, velocidad, posX_tanque, posY_tanque, col_posxT, col_posyT, listaProyectilesB, opcProyectil = turno_1(x2_1, y2_2, x1_1, y1_2, listaProyectilesB, 2)
+            t = 0
+            alt_max = Altura_maximo(velocidad , angulo)
+            turno += 5 #no entrada
+            cont += 1 #Contador de turnos
+            
+            
+            """InterfazJuego.InterfazJuego.turno_jugador(turno)
+            InterfazJuego.InterfazJuego.altura_distancia()
+            
+            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 2, x2_1, y2_2)
             listaProyectilesB, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, x2_1+10, y2_2-190, listaProyectilesB)
             print(listaProyectiles[opcProyectil][2])
 
@@ -554,6 +631,6 @@ def Juego():
             t = 0
 
             alt_max = Altura_maximo(velocidad , angulo)
-            print("ALTURA MAXIMA", alt_max)
+            print("ALTURA MAXIMA", alt_max)"""
             
         clock.tick(60)
