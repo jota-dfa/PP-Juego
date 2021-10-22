@@ -26,7 +26,7 @@ VENTANA = pygame.display.set_mode((ANCHO, ALTO))
 fuente_base = pygame.font.Font(None,30)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
-seleccion_mapa = 2 #random.randint(1,3)
+seleccion_mapa = random.randint(1,3)
 
 def Juego():
     
@@ -122,41 +122,89 @@ def Juego():
 
     def spawn_tanques(mov_y,seleccion_mapa): #animacion , escalar con un arreglo de randoms
         if(seleccion_mapa==1):
-            a = 1
-            b =random.randint(1,2)
+            a = random.randint(1,4)
+            b = random.randint(1,4)
             
-            xl1_1=random.randint(0,100)
-            yl1_1=((-0.5*xl1_1)-155)*-1     #Recta 1 - tanque 1
-            yl2_1=220                       #Recta 2 - tanque 1
-            xl3_1=random.randint(210,300)
-            yl3_1=((0.9*xl3_1)-400)*-1+40   #Recta 3 - tanque 1
-            
+            xl1_1=random.randint(70,100)
+            yl1_1=((0.01*xl1_1)-122)*-1
+            xl2_1=random.randint(100,150)     
+            yl2_1=((-0.4*xl2_1)-89)*-1 
+                              
+            ##xl3_1=random.randint(150,118)##rara
+            ##yl3_1=((1.7*xl3_1)-413)*-1
+               
+            xl3_1=random.randint(118,170)
+            yl3_1=((-0.2*xl3_1)-162)*-1
+
+            xl4_1=random.randint(180,228)
+            yl4_1=((-0.5*xl4_1)-113)*-1
+
+            #xl5_1=random.randint(228,248)
+            #yl5_1=((-3.5*xl5_1)+551)*-1
+
+            xl6_1=random.randint(248,300)
+            yl6_1=((1.4*xl6_1)-666)*-1
+
             if(a==1):
                 coordenada1_1 = xl1_1
-                coordenada1_2 = yl1_1+80
+                coordenada1_2 = yl1_1
             if(a==2):
-                coordenada1_1 = xl1_1
+                coordenada1_1 = xl2_1
                 coordenada1_2 = yl2_1
             if(a==3):
                 coordenada1_1 = xl3_1
                 coordenada1_2 = yl3_1
+            if(a==4):
+                coordenada1_1 = xl4_1
+                coordenada1_2 = yl4_1
+            
+     
+########
+            ##xl8_1=random.randint(300,366)
+            ##yl8_1=((0.7*xl8_1)-461)*-1
+            
+            ##xl9_1=random.randint(366,401)
+            ##yl9_1=((1.1*xl9_1)-608)*-1
 
-            xl1_2=random.randint(550,700)
-            yl1_2=((0.16*xl1_2)-265)*-1  #Recta 1 - tanque 2, recta compartida t1 y t2
-            xl2_2 =random.randint(300,550)
-            yl2_2 =((-0.32*xl2_2)-34)*-1+50  #Recta 2 - tanque 2
+            ##xl10_1=random.randint(401,449)
+            ##yl10_1=((0.1*xl10_1)-211)*-1
+
+            ##xl11_1=random.randint(449,504)
+            ##yl11_1=((-1.1*xl11_1)+338)*-1
+#
+            xl1_2=random.randint(504,593)
+            yl1_2=((-0.6*xl1_2)+90)*-1
+
+            xl2_2=random.randint(593,653)
+            yl2_2=((0.8*xl2_2)-701)*-1
+
+            ##xl2_2=random.randint(663,610)##########rara
+            ##yl2_2=((-1.0*xl2_2)+507)*-1
+
+            xl3_2=random.randint(610,701)
+            yl3_2=((0.2*xl3_2)-251)*-1
+
+            xl4_2=random.randint(701,770)
+            yl4_2=((-0.009*xl4_2)-105)*-1
             
             if(b==1):
                 coordenada2_1 = xl1_2
-                coordenada2_2 = yl1_2+80
+                coordenada2_2 = yl1_2
             if(b==2):
                 coordenada2_1 = xl2_2
                 coordenada2_2 = yl2_2 
+            if(b==3):
+                coordenada2_1 = xl3_2
+                coordenada2_2 = yl3_2
+            if(b==4):
+                coordenada2_1 = xl4_2
+                coordenada2_2 = yl4_2 
+
             
             return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
         if(seleccion_mapa==2):
-            a = random.randint(1,6)
-            b = random.randint(1,6)
+            a = random.randint(1,4)
+            b = random.randint(1,4)
             
             xl1_1 = random.randint(0,74)
             yl1_1 = (1.3*xl1_1-250)*-1
@@ -170,11 +218,11 @@ def Juego():
             xl4_1 = random.randint(250,300)
             yl4_1 = xl4_1
 
-            xl5_1 = random.randint(300,350)
-            yl5_1 = (xl5_1 - 600)*-1
+            ##xl5_1 = random.randint(300,350)
+            ##yl5_1 = (xl5_1 - 600)*-1
 
-            xl6_1 = random.randint(350,390)
-            yl6_1 = 250
+            ##xl6_1 = random.randint(350,390)
+            ##yl6_1 = 250
 
             if(a==1):
                 coordenada1_1 = xl1_1
@@ -188,34 +236,29 @@ def Juego():
             if(a==4):
                 coordenada1_1 = xl4_1
                 coordenada1_2 = yl4_1
-            if(a==5):
-                coordenada1_1 = xl5_1
-                coordenada1_2 = yl5_1
-            if(a==6):
-                coordenada1_1 = xl6_1
-                coordenada1_2 = yl6_1
-
+           
             #################
             
 
-            xl1_2 = random.randint(400,450)
-            yl1_2 = 250
+            ##xl1_2 = random.randint(400,450)
+            ##yl1_2 = 250
 
-            xl2_2 = random.randint(450,500)
-            yl2_2 = (-xl2_2 + 200)*-1   
+            ##xl2_2 = random.randint(450,500)
+            ##yl2_2 = (-xl2_2 + 200)*-1   
 
-            xl3_2 = random.randint(500,550)
-            yl3_2 = (xl3_2 -800)*-1
+            xl1_2 = random.randint(500,550)
+            yl1_2 = (xl1_2 -800)*-1
             
-            xl4_2 = random.randint(550,650)
-            yl4_2 = 250
+            xl2_2 = random.randint(550,650)
+            yl2_2 = 250
             
-            xl5_2 = random.randint(650,725)
-            yl5_2 = ((1.3*xl5_2)-1090)*-1
+            xl3_2 = random.randint(650,725)
+            yl3_2 = ((1.3*xl3_2)-1090)*-1
         
-            xl6_2 = random.randint(725,800)
-            yl6_2 = ((-1.3*xl6_2)+800)*-1
+            xl4_2 = random.randint(725,800)
+            yl4_2 = ((-1.3*xl4_2)+800)*-1
 
+             
             if(b==1):
                 coordenada2_1 = xl1_2
                 coordenada2_2 = yl1_2
@@ -228,44 +271,38 @@ def Juego():
             if(b==4):
                 coordenada2_1 = xl4_2
                 coordenada2_2 = yl4_2 
-            if(b==5):
-                coordenada2_1 = xl5_2
-                coordenada2_2 = yl5_2
-            if(b==6):
-                coordenada2_1 = xl6_2
-                coordenada2_2 = yl6_2 
             return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
         if(seleccion_mapa==3):
-            a = random.randint(1,8)
-            b = 1
+            a = random.randint(1,5)
+            b = random.randint(1,4)
 
-            xl1_1 = random.randint(0,34)
-            yl1_1 = ((0.3*xl1_1)-176)*-1
+            xl1_1 = random.randint(10,24)
+            yl1_1 = ((0.3*xl1_1)-186)*-1
 
-            xl2_1 = random.randint(38,49)
+            xl2_1 = random.randint(48,49)
             yl2_1 = ((-5.4*xl2_1)+47)*-1
 
-            xl3_1 = random.randint(49,100)
-            yl3_1 = ((-0.5*xl3_1)-195)*-1
+            xl3_1 = random.randint(49,90)
+            yl3_1 = ((-0.5*xl3_1)-200)*-1
 
-            xl4_1 = random.randint(100,149)
-            yl4_1 = ((-1.9*xl4_1)-59)*-1
+            xl4_1 = random.randint(100,119)
+            yl4_1 = ((-1.9*xl4_1)-69)*-1
 
-            xl5_1 = random.randint(149,190)
+            xl5_1 = random.randint(179,190)
             yl5_1 = ((2.6*xl5_1)-745)*-1
 
             xl6_1 = random.randint(190,253)
             yl6_1 = ((0.6*xl6_1)-349)*-1
 
-            xl7_1 = random.randint(253,283)
-            yl7_1 = ((1.5*xl7_1)-581)*-1
+            #xl7_1 = random.randint(253,283)
+            #yl7_1 = ((1.5*xl7_1)-581)*-1
 
-            xl8_1 = random.randint(283,339)
-            yl8_1 = ((-1.5*xl8_1)+289)*-1
+            ##xl8_1 = random.randint(283,339)
+            ##yl8_1 = ((-1.5*xl8_1)+289)*-1
 
             if(a==1):
                 coordenada1_1 = xl1_1
-                coordenada1_2 = yl1_1-10
+                coordenada1_2 = yl1_1-20
             if(a==2):
                 coordenada1_1 = xl1_1
                 coordenada1_2 = yl2_1
@@ -281,13 +318,7 @@ def Juego():
             if(a==6):
                 coordenada1_1 = xl6_1
                 coordenada1_2 = yl6_1
-            if(a==7):
-                coordenada1_1 = xl1_1
-                coordenada1_2 = yl1_1
-            if(a==8):
-                coordenada1_1 = xl1_1
-                coordenada1_2 = yl2_1
-
+            
             ##xl9_1 = random.randint(339,408)
             ##yl9_1 = ((-0.06*xl9_1)-209)*-1
 
@@ -298,20 +329,20 @@ def Juego():
             ##yl11_1 = ((2.1*xl11_1)-1305)*-1
 
 
-            xl1_2 = random.randint(520,566)
-            yl1_2 = ((0.9*xl1_2)-698)*-1
+            xl1_2 = random.randint(520,560)
+            yl1_2 = ((0.9*xl1_2)-672)*-1
 
             xl2_2 = random.randint(566,650)
-            yl2_2 = ((-0.2*xl2_2)-48)*-1
+            yl2_2 = ((-0.2*xl2_2)-58)*-1
 
             xl3_2 = random.randint(650,700)
-            yl3_2 = ((0.7*xl3_2)-670)*-1
+            yl3_2 = ((0.7*xl3_2)-640)*-1
 
-            xl4_2 = random.randint(700,756)
-            yl4_2 = ((-0.3*xl4_2)+66)*-1
+            xl4_2 = random.randint(700,736)
+            yl4_2 = ((-0.3*xl4_2)+46)*-1
 
-            xl5_2 = random.randint(756,800)
-            yl5_2 = ((0.6*xl5_2)+643)*-1
+            ##xl5_2 = random.randint(756,760)
+            ##yl5_2 = ((0.6*xl5_2)+643)*-1
             
             if(b==1):
                 coordenada2_1 = xl1_2
@@ -325,12 +356,9 @@ def Juego():
             if(b==4):
                 coordenada2_1 = xl4_2
                 coordenada2_2 = yl4_2 
-            if(b==5):
-                coordenada2_1 = xl5_2
-                coordenada2_2 = yl5_2
+          
             print(coordenada2_1,coordenada2_2,b)
             return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
-        
 
     def validar_angulo(x):
         if x < 0 or x > 180:
