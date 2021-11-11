@@ -1,4 +1,6 @@
 import pygame
+from pygame import event
+from pygame.constants import MOUSEBUTTONDOWN
 import Tanques
 
 ALTO = 500
@@ -9,7 +11,7 @@ pygame.font.init()
 NEGRO = (0, 0, 0)
 GRIS =  (131,139,139)
 VENTANA = pygame.display.set_mode((ANCHO, ALTO))
-
+SALIR_IMAGEN = pygame.image.load("imagenes/salir.png").convert_alpha
 seleccion_mapa = 1 #random.randint(1,3)
 fuente_base = pygame.font.Font(None,30)
 
@@ -38,8 +40,29 @@ class InterfazJuego():
                 if event.type == pygame.KEYDOWN: #cierra menu
                     string += event.unicode 
                     seguir = 0
-                pygame.display.update()    
-            
+                pygame.display.update()
+
+    def botonSalir():
+        seguir = 1
+        string = ''
+        boton_salir = 'salir'
+        texto_B_salir = fuente_base.render(boton_salir,True,(0,0,0))
+        boton_rect = pygame.Rect(740,10, 50,25)
+        pygame.draw.rect(VENTANA,(255,255,255), boton_rect)
+        VENTANA.blit(texto_B_salir, boton_rect)
+        pygame.display.update()
+        while seguir == 1:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN: #VELOCIDAD
+                    if boton_rect.collidepoint(event.pos):
+                        pygame.quit()
+                        return 1
+
+                if event.type == pygame.KEYDOWN: #cierra menu
+                    string += event.unicode 
+                    seguir = 0
+                pygame.display.update()  
+
     def marcadorJugador(VENTANA, a, posXT, posYT):
         if a == 1:
             marcadorP1 = pygame.image.load("imagenes/p1.png")
@@ -315,3 +338,6 @@ class InterfazJuego():
         txt_jugador = fuente_base.render(jugador,True,(0,0,0))
         VENTANA.blit(txt_jugador,(Rect.x + 410 , Rect.y + 0))
         VENTANA.blit(jugadores,(Rect.x + 300 , Rect.y + 0))
+
+
+        

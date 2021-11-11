@@ -9,6 +9,7 @@ import Tanques
 import Proyectil
 import InterfazJuego
 
+
 pygame.font.init()
 #GLOBALES - CONSTANTES
 ALTO = 500
@@ -171,7 +172,7 @@ def Juego():
 
             ##xl11_1=random.randint(449,504)
             ##yl11_1=((-1.1*xl11_1)+338)*-1
-#
+
             xl1_2=random.randint(504,593)
             yl1_2=((-0.6*xl1_2)+90)*-1
 
@@ -365,7 +366,6 @@ def Juego():
             Opciones_validar_ang()
             while x < 0 or x > 180:
                 print("ERROR, Angulo incorrecto")
-                x = float(evento_angulo())
                 
             return x    
 
@@ -378,7 +378,7 @@ def Juego():
             Opciones_validar_vel()
             while y < 0 or y > 250:
                 print("ERROR, Velocidad incorrecta")
-                y = int(evento_velocidad())
+
                 
             return y    
 
@@ -389,6 +389,7 @@ def Juego():
     def turno_1(posxEmisor, posyEmisor, posxDestino, posyDestino, listaProyectiles, turno):
         
         boton_rectangulo = pygame.Rect([0, 0, 40, 40])
+        boton_rect = pygame.Rect(740,10, 50,25)
         #Rect_izq_1 = pygame.Rect(100,460, 50,25)#Angulo izq
         #Rect_izq_2 = pygame.Rect(600,460, 50,25)#Velocidad izq
         xEmisor, yEmisor = posxEmisor+10, posyEmisor-190
@@ -417,15 +418,13 @@ def Juego():
 
             for event in pygame.event.get():
 
-                """if boton_rectangulo.collidepoint(event.pos):
-                        boton = pygame.image.load("imagenes/button_reset_r.png")
-                        VENTANA.blit(boton, (0, 0))
-                else:
-                        boton = pygame.image.load("imagenes/button_reset_n.png")
-                        VENTANA.blit(boton, (0, 0))""" 
 
                 if event.type == pygame.MOUSEBUTTONDOWN: #VELOCIDAD
-                
+
+                    """ boton salir """
+                    if boton_rect.collidepoint(event.pos):
+                        return 1,0,0,0,0,0,1,listaProyectiles, opcProyectil
+
                     """ boton reinicio """
                     if boton_rectangulo.collidepoint(event.pos):
                         return 1,0,0,0,0,0,0,listaProyectiles, opcProyectil
@@ -512,6 +511,8 @@ def Juego():
     listaProyectilesB = Proyectil.Proyectil.proyectiles(listaProyectilesB)
     vida = [100, 100]
 
+   
+
     while turno != 0: #PRINCIPAL
         
         if cont == 0:
@@ -520,16 +521,15 @@ def Juego():
             Tanques.Tanques.p2(VENTANA, x2_1,y2_2,seleccion_mapa)
             vida = Tanques.Tanques.vida(VENTANA, vida, 0, 0)
 
+
+
         vida = Tanques.Tanques.vida(VENTANA, vida, 0, 0)
         pygame.display.update()
 
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-
+        
         pygame.display.update()  #Actualizacion ventana       
         InterfazJuego.InterfazJuego.altura_distancia()         
+        InterfazJuego.InterfazJuego.botonSalir()
 
         if turno == 1:
             print("\nJUGADOR 1")
@@ -542,34 +542,13 @@ def Juego():
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
             
-            """InterfazJuego.InterfazJuego.turno_jugador(turno)
-            
-            print("\nJUGADOR 1")
-            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x1_1, y1_2)
-            listaProyectiles, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, x1_1+10, y1_2-190, listaProyectiles)
-            fin_juego = InterfazJuego.InterfazJuego.botonReinicio()
-            print(listaProyectiles[opcProyectil][2])
-
-            angulo_usuario, velocidad_usuario = evento_angulo(), evento_velocidad()
-            velocidad, angulo = validar_velocidad(int(velocidad_usuario)), validar_angulo(float(angulo_usuario)) 
-            angulo = Proyectil.Proyectil.grad_a_rad(angulo)
-            posX_tanque, posY_tanque = ((x1_1+25), y1_2) # tanque emisor
-            col_posxT, col_posyT = x2_1, y2_2 # tanque destino
-            
-            turno += 5 #no entrada
-            cont += 1 #Contador de turnos
-            t = 0
-            
-            alt_max = Altura_maximo(velocidad , angulo)
-            print("ALTURA MAXIMA", alt_max)   """    
-
-
         time.sleep(0.002)
         t = t+0.02*10 #velocidad *5
         x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque-3)
         dMax = Distancia_maximo(posX_tanque , posY_tanque , x , y)
         InterfazJuego.InterfazJuego.dibujar_altura(alt_max)
         InterfazJuego.InterfazJuego.dibujar_distancia(dMax)
+        
         
         ''' COLSIONES '''
 
@@ -638,27 +617,14 @@ def Juego():
             alt_max = Altura_maximo(velocidad , angulo)
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
-            
-            
-            """InterfazJuego.InterfazJuego.turno_jugador(turno)
-            InterfazJuego.InterfazJuego.altura_distancia()
-            
-            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 2, x2_1, y2_2)
-            listaProyectilesB, opcProyectil = InterfazJuego.InterfazJuego.menuProyectiles(VENTANA, x2_1+10, y2_2-190, listaProyectilesB)
-            print(listaProyectiles[opcProyectil][2])
 
-            InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 2, x2_1, y2_2)
-            angulo_usuario, velocidad_usuario = evento_angulo(), evento_velocidad()
-            velocidad, angulo = validar_velocidad(int(velocidad_usuario)), validar_angulo(float(angulo_usuario))
-            angulo = Proyectil.Proyectil.grad_a_rad(angulo)
-            posX_tanque, posY_tanque = ((x2_1+25), y2_2)    # pos(x,y) tanque emisor / x+25 = mitad del tanque
-            col_posxT, col_posyT = (x1_1, y1_2)
-            
-            turno += 5 #condicion de no entrada
-            cont += 1
-            t = 0
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()            
 
-            alt_max = Altura_maximo(velocidad , angulo)
-            print("ALTURA MAXIMA", alt_max)"""
-            
+            if event.type == pygame.QUIT:
+                turno = 0
+                pygame.quit()
+                quit()
+
+
         clock.tick(60)
