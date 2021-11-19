@@ -389,7 +389,7 @@ def Juego():
     def turno_1(posxEmisor, posyEmisor, posxDestino, posyDestino, listaProyectiles, turno):
         
         boton_rectangulo = pygame.Rect([0, 0, 40, 40])
-        boton_rect = pygame.Rect(740,10, 50,25)
+        boton_rect =  boton_rect = pygame.Rect(740,10, 50,25)
         #Rect_izq_1 = pygame.Rect(100,460, 50,25)#Angulo izq
         #Rect_izq_2 = pygame.Rect(600,460, 50,25)#Velocidad izq
         xEmisor, yEmisor = posxEmisor+10, posyEmisor-190
@@ -423,7 +423,7 @@ def Juego():
 
                     """ boton salir """
                     if boton_rect.collidepoint(event.pos):
-                        return 1,0,0,0,0,0,1,listaProyectiles, opcProyectil
+                        return 1,0,0,0,0,0,0,listaProyectiles, opcProyectil
 
                     """ boton reinicio """
                     if boton_rectangulo.collidepoint(event.pos):
