@@ -106,8 +106,22 @@ def pantalla():
     click = False
     while correr:
         VENTANA.fill((0,0,0))
-        Dibujar_texto('PROXIMAMENTE', FUENTE, (255, 255, 255), VENTANA, 20, 20)
-        
+        tam_1 = pygame.Rect(450, 150, 200, 50)
+        tam_2 = pygame.Rect(150, 150, 200, 50)
+        mx, my = pygame.mouse.get_pos()
+        Dibujar_texto('800x500', FUENTE, (255, 255, 255), VENTANA, 470, 160)
+        Dibujar_texto('1600x900', FUENTE, (255, 255, 255), VENTANA, 170, 160) 
+
+        pygame.draw.rect(VENTANA, (255, 255,255), tam_1,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), tam_2,1)
+        if tam_1.collidepoint((mx, my)):
+            if click:
+                print("800x500")
+
+        if tam_2.collidepoint((mx, my)):
+            if click:
+                print("1600x900")
+
         click = False
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -115,7 +129,7 @@ def pantalla():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    Menu_principal()
+                   Opciones()
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True 
@@ -127,8 +141,33 @@ def municiones():
     click = False
     while correr:
         VENTANA.fill((0,0,0))
-        Dibujar_texto('PROXIMAMENTE', FUENTE, (255, 255, 255), VENTANA, 20, 20)
-        
+        bala_1 = pygame.Rect(10, 150, 200, 50)
+        bala_2 = pygame.Rect(300, 150, 200, 50)
+        bala_3 = pygame.Rect(590, 150, 200, 50)
+        mx, my = pygame.mouse.get_pos()
+
+
+        Dibujar_texto('60mm', FUENTE, (255, 255, 255), VENTANA, 15, 100)
+        Dibujar_texto('Proyectil perforante', FUENTE, (255, 255, 255), VENTANA, 305, 100) 
+        Dibujar_texto('105mm', FUENTE, (255, 255, 255), VENTANA, 595, 100) 
+
+        pygame.draw.rect(VENTANA, (255, 255,255), bala_1,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), bala_2,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), bala_3,1)
+
+
+        if bala_1.collidepoint((mx, my)):
+            if click:
+                print("60mm")
+
+        if bala_2.collidepoint((mx, my)):
+            if click:
+                print("Proyectil perforante")
+
+        if bala_3.collidepoint((mx, my)):
+            if click:
+                print("105mm")
+
         click = False
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -136,7 +175,7 @@ def municiones():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    Menu_principal()
+                   Opciones()
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True 
@@ -157,7 +196,7 @@ def jugadores():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    Menu_principal()
+                   Opciones()
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True 
