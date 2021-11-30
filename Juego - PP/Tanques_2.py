@@ -63,7 +63,7 @@ class Tanques():
             lista[1] = vida_2
 
 
-        pygame.draw.rect(VENTANA, 'green', [0, 425, vida_1, 25])
-        pygame.draw.rect(VENTANA, 'green', [700, 425, vida_2, 25])
+        pygame.draw.rect(VENTANA, 'green', [0, 700, vida_1, 50])
+        pygame.draw.rect(VENTANA, 'green', [1500, 700, vida_2, 50])
 
         return lista

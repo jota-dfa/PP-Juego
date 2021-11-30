@@ -1,11 +1,16 @@
 import pygame, sys
 import main
+import main_2
+
 
 Reloj = pygame.time.Clock()
 from pygame.locals import *
 pygame.init()
 pygame.display.set_caption('Scorched World')
-VENTANA = pygame.display.set_mode((800, 500),0,32)
+ventana= -1
+ALTO = 500
+ANCHO = 800
+VENTANA = pygame.display.set_mode((ANCHO, ALTO))
  
 FUENTE = pygame.font.SysFont(None, 35)
  
@@ -15,10 +20,9 @@ def Dibujar_texto(texto, fuente, color, superficie, x, y):
     textrect.topleft = (x, y)
     superficie.blit(textobj, textrect)
 
-def Menu_principal():
+def Menu_principal(ventana , municion_1, municion_2, municion_3, jugadores):
     click = False
     while True:
- 
         VENTANA.fill((0,0,0))
         Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 360, 160) 
         Dibujar_texto('Opciones', FUENTE, (255,255,255),VENTANA, 345, 260)
@@ -28,11 +32,16 @@ def Menu_principal():
         Boton_2 = pygame.Rect(300, 250, 200, 50)
         if Boton_1.collidepoint((mx, my)):
             if click:
-                main.Juego()
+                if ventana == 0:
+                    main.Juego()
+
+                if ventana == 1:
+                    main_2.Juego()    
 
         if Boton_2.collidepoint((mx, my)):
             if click:
                 Opciones()
+                Menu_principal(ventana,0,0,0,0)
         pygame.draw.rect(VENTANA, (255, 255,255), Boton_1,1)
         pygame.draw.rect(VENTANA, (255, 255, 255), Boton_2,1)
  
@@ -53,7 +62,7 @@ def Menu_principal():
         Reloj.tick(60)
  
 def Opciones():
-    
+
     click = False
     correr = True
     while correr:
@@ -69,7 +78,7 @@ def Opciones():
 
         if Boton_pantalla.collidepoint((mx, my)):
             if click:
-                pantalla()
+                ventana = pantalla()
 
         if Boton_municiones.collidepoint((mx, my)):
             if click:
@@ -92,14 +101,16 @@ def Opciones():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    Menu_principal()
+                    Menu_principal(ventana,0,0,0,0)
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True 
         
-
+    
         pygame.display.update()
         Reloj.tick(60)
+    return ventana    
+
 
 def pantalla():    
     correr = True
@@ -117,10 +128,12 @@ def pantalla():
         if tam_1.collidepoint((mx, my)):
             if click:
                 print("800x500")
+                return 0 
 
         if tam_2.collidepoint((mx, my)):
             if click:
                 print("1600x900")
+                return 1
 
         click = False
         for event in pygame.event.get():
@@ -203,4 +216,4 @@ def jugadores():
         pygame.display.update()
         Reloj.tick(60)
 
-Menu_principal()
+Menu_principal(ventana,0,0,0,0)
