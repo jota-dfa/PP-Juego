@@ -2,6 +2,7 @@ import pygame
 from pygame import event
 from pygame.constants import MOUSEBUTTONDOWN
 import Tanques
+from main import BLANCO
 
 ALTO = 500
 ANCHO = 800
@@ -13,7 +14,7 @@ GRIS =  (131,139,139)
 VENTANA = pygame.display.set_mode((ANCHO, ALTO))
 SALIR_IMAGEN = pygame.image.load("imagenes/salir.png").convert_alpha
 seleccion_mapa = 1 #random.randint(1,3)
-fuente_base = pygame.font.Font(None,30)
+fuente_base = pygame.font.Font(None,50)
 
 class InterfazJuego():
 
@@ -41,27 +42,6 @@ class InterfazJuego():
                     string += event.unicode 
                     seguir = 0
                 pygame.display.update()
-
-    def botonSalir():
-        seguir = 1
-        string = ''
-        boton_salir = 'salir'
-        texto_B_salir = fuente_base.render(boton_salir,True,(0,0,0))
-        boton_rect = pygame.Rect(740,10, 50,25)
-        pygame.draw.rect(VENTANA,(255,255,255), boton_rect)
-        VENTANA.blit(texto_B_salir, boton_rect)
-        pygame.display.update()
-        while seguir == 1:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN: #VELOCIDAD
-                    if boton_rect.collidepoint(event.pos):
-                        pygame.quit()
-                        return 1
-
-                if event.type == pygame.KEYDOWN: #cierra menu
-                    string += event.unicode 
-                    seguir = 0
-                pygame.display.update()  
 
     def marcadorJugador(VENTANA, a, posXT, posYT):
         if a == 1:
@@ -306,38 +286,37 @@ class InterfazJuego():
         return 1
 
     def altura_distancia():
-        Fuente = pygame.font.Font(None,30)
-        altura = 'Altura:                m '
+        Fuente = pygame.font.Font(None,50)
+        altura = 'Altura:                m          '
         distancia = 'Distancia:                m'
         texto_altura = Fuente.render(altura,True,(0,0,0))
         texto_distancia = Fuente.render(distancia,True,(0,0,0))
-        Rect =  pygame.Rect( 100, 425, 600, 25)
-        pygame.draw.rect(VENTANA, (255,255,255),( 100, 425, 600, 25))
+        Rect =  pygame.Rect( 425, 725, 600, 50)
+        pygame.draw.rect(VENTANA, BLANCO,( 500, 800, 600, 25))
         VENTANA.blit(texto_altura,(Rect.x + 10 , Rect.y + 0))
-        VENTANA.blit(texto_distancia,(Rect.x + 350,Rect.y + 0))
+        VENTANA.blit(texto_distancia,(Rect.x + 500,Rect.y + 0))
 
     def dibujar_altura(altura_maxima):
-        Rect =  pygame.Rect( 100, 425, 600, 25)
+        Rect =  pygame.Rect( 450, 725, 600, 50)
         x = int(altura_maxima)
         altura = str(x)
         txt_altura = fuente_base.render(altura,True,(0,0,0))
         VENTANA.blit(txt_altura,(Rect.x + 100 , Rect.y + 0))
 
     def dibujar_distancia(distancia_maxima):
-        Rect =  pygame.Rect( 100, 425, 600, 25)
+        Rect =  pygame.Rect( 600, 725, 600, 50)
         x = int(distancia_maxima)
         distancia = str(x)
         txt_distancia = fuente_base.render(distancia,True,(0,0,0))
         VENTANA.blit(txt_distancia,(Rect.x + 500 , Rect.y + 0))
 
     def turno_jugador(jugador):
-        Rect =  pygame.Rect(0,460, 50,25)
+        Rect =  pygame.Rect(380,850, 50,25)
         jugador = str(jugador)
-        txt_jugadores_general = 'Jugador'
+        txt_jugadores_general = 'Jugador   '
         jugadores = fuente_base.render(txt_jugadores_general,True,(0,0,0))
         txt_jugador = fuente_base.render(jugador,True,(0,0,0))
-        VENTANA.blit(txt_jugador,(Rect.x + 410 , Rect.y + 0))
+        VENTANA.blit(txt_jugador,(Rect.x + 470 , Rect.y + 0))
         VENTANA.blit(jugadores,(Rect.x + 300 , Rect.y + 0))
 
 
-        
