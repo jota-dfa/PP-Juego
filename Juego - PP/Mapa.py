@@ -98,6 +98,7 @@ class Mapa():
                     print("colision terreno")
                     return False
 
+
         if (seleccion_mapa == 2):
             if(y > 0):
                 color_terreno = (114,93,23)
