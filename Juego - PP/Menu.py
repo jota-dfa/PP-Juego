@@ -9,10 +9,11 @@ pygame.init()
 pygame.display.set_caption('Scorched World')
 ventana= 0
 g = 9.8
+v = 0
+texto_usuario_gravedad = '9.8'
 ALTO = 500
 ANCHO = 800
 VENTANA = pygame.display.set_mode((ANCHO, ALTO))
- 
 FUENTE = pygame.font.SysFont(None, 35)
  
 def Dibujar_texto(texto, fuente, color, superficie, x, y):
@@ -21,43 +22,65 @@ def Dibujar_texto(texto, fuente, color, superficie, x, y):
     textrect.topleft = (x, y)
     superficie.blit(textobj, textrect)
 
- 
-def Opciones():
+def gravedad():
+    texto_ventana = 'Introduzca la gravedad'
+    texto_usuario_gravedad = ''
+    float_gravedad = 0.0
+    Boton_gravedad = pygame.Rect(300, 200, 200, 50)
+    correr = True
+    while correr:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_BACKSPACE:
+                    texto_usuario_gravedad = texto_usuario_gravedad[0:-1]
+
+                else:    
+                    texto_usuario_gravedad += event.unicode
+                
+                if event.key == pygame.K_SPACE:
+                    float_gravedad = float(texto_usuario_gravedad)
+                    correr = False
+                if event.key == K_ESCAPE:
+                    Menu_principal(ventana,0,0,0,0,g,v)
+
+
+        VENTANA.fill((0,0,0)) 
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_gravedad,1)           
+        texto_gravedad = FUENTE.render(texto_usuario_gravedad,True,(255,255,255))
+        texto_ventana_inter = FUENTE.render(texto_ventana,True,(255,255,255))
+        VENTANA.blit(texto_ventana_inter,(270,100))
+        VENTANA.blit(texto_gravedad,Boton_gravedad)
+        pygame.display.update()
+        Reloj.tick(60)
+
+    return float_gravedad
+
+def viento_activo():
     click = False
     correr = True
     while correr:
         VENTANA.fill((0,0,0))
-        Boton_gravedad = pygame.Rect(0, 0, 50, 50) 
-        Boton_pantalla = pygame.Rect(300, 150, 200, 50)
-        Boton_municiones = pygame.Rect(300, 250, 200, 50)
-        Boton_jug = pygame.Rect(300, 350, 200, 50)
+        Boton_viento_activo = pygame.Rect(150, 350, 200, 50)
+        Boton_viento_desactivado = pygame.Rect(450, 350, 200, 50)
         mx, my = pygame.mouse.get_pos()
-        Dibujar_texto('Opciones', FUENTE, (255, 255, 255), VENTANA, 20, 20)
-        Dibujar_texto('Pantalla', FUENTE, (255, 255, 255), VENTANA, 310, 160) 
-        Dibujar_texto('Municiones', FUENTE, (255,255,255),VENTANA, 310, 260)
-        Dibujar_texto('Jugadores', FUENTE, (255, 255, 255), VENTANA, 310, 360) 
-
-        if Boton_pantalla.collidepoint((mx, my)):
+        Dibujar_texto('Activar', FUENTE, (255, 255, 255), VENTANA, 210, 360)
+        Dibujar_texto('Desactivar', FUENTE, (255, 255, 255), VENTANA, 460, 360)
+        if Boton_viento_activo.collidepoint((mx, my)):
             if click:
-                ventana = pantalla()
+                print("Viento: Activado--")
+                v = 1 
 
-        if Boton_municiones.collidepoint((mx, my)):
+        if Boton_viento_desactivado.collidepoint((mx, my)):
             if click:
-                municiones()
+                print("Viento: Desactivado--")
+                v = 0 
 
-        if Boton_jug.collidepoint((mx, my)):
-            if click:
-                jugadores()
-                
-        if Boton_gravedad.collidepoint((mx,my)):
-            if click:
-                g = gravedad()
-
-
-        pygame.draw.rect(VENTANA, (255, 255,255), Boton_pantalla,1)
-        pygame.draw.rect(VENTANA, (255, 255,255), Boton_municiones,1)
-        pygame.draw.rect(VENTANA, (255, 255,255), Boton_jug,1)
-        pygame.draw.rect(VENTANA, (255, 255,255), Boton_gravedad,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_viento_activo,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_viento_desactivado,1)   
 
         click = False
         for event in pygame.event.get():
@@ -66,7 +89,7 @@ def Opciones():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    Menu_principal(ventana,0,0,0,0,g)
+                    Menu_principal(ventana,0,0,0,0,g ,v)
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True 
@@ -74,12 +97,7 @@ def Opciones():
     
         pygame.display.update()
         Reloj.tick(60)
-    return ventana ,g
-
-def gravedad():
-    g = 90
-    print("90")
-    return g
+    return v
 
 def pantalla():    
     correr = True
@@ -185,9 +203,72 @@ def jugadores():
         pygame.display.update()
         Reloj.tick(60)
 
-def Menu_principal(ventana , municion_1, municion_2, municion_3, jugadores, gravedad):
+def Opciones():
+    ventana = 0
+    viento_inter = 0
+    gravedad_inter = g
+    click = False
+    correr = True
+    while correr:
+        VENTANA.fill((0,0,0))
+        Boton_gravedad = pygame.Rect(300, 350, 200, 50) 
+        Boton_viento = pygame.Rect(300, 450, 200, 50) 
+        Boton_pantalla = pygame.Rect(300, 50, 200, 50)
+        Boton_municiones = pygame.Rect(300, 150, 200, 50)
+        Boton_jug = pygame.Rect(300, 250, 200, 50)
+        mx, my = pygame.mouse.get_pos()
+        Dibujar_texto('Opciones', FUENTE, (255, 255, 255), VENTANA, 20, 20)
+        Dibujar_texto('Pantalla', FUENTE, (255, 255, 255), VENTANA, 310, 60) 
+        Dibujar_texto('Municiones', FUENTE, (255,255,255),VENTANA, 310, 160)
+        Dibujar_texto('Jugadores', FUENTE, (255, 255, 255), VENTANA, 310, 260) 
+        Dibujar_texto('Gravedad', FUENTE, (255,255,255),VENTANA, 310, 360)
+        Dibujar_texto('Viento', FUENTE, (255, 255, 255), VENTANA, 310, 460) 
+
+        if Boton_pantalla.collidepoint((mx, my)):
+            if click:
+                ventana = pantalla()
+
+        if Boton_municiones.collidepoint((mx, my)):
+            if click:
+                municiones()
+
+        if Boton_jug.collidepoint((mx, my)):
+            if click:
+                jugadores()
+                
+        if Boton_gravedad.collidepoint((mx,my)):
+            if click:
+                gravedad_inter = gravedad()
+        if Boton_viento.collidepoint((mx,my)):
+            if click:
+                viento_inter = viento_activo()
+
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_pantalla,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_municiones,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_jug,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_gravedad,1)
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_viento,1)
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE: 
+                    print("Gravedad: ad",gravedad_inter)
+                    Menu_principal(ventana,0,0,0,0,gravedad_inter,viento_inter)
+
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True 
+        
+        pygame.display.update()
+        Reloj.tick(60)   
+
+def Menu_principal(ventana , municion_1, municion_2, municion_3, jugadores, gravedad , viento):
     g = gravedad
-    print("GRavedad : ",gravedad)
+    v = viento
+    print("gravedad : ",gravedad)
     click = False
     while True:
         VENTANA.fill((0,0,0))
@@ -200,10 +281,14 @@ def Menu_principal(ventana , municion_1, municion_2, municion_3, jugadores, grav
         if Boton_1.collidepoint((mx, my)):
             if click:
                 if ventana == 0:
-                    main.Juego(g)
+                    print("Viento final: ",v)
+                    print("Gravedad final: ",g)
+                    main.Juego(g, v)
 
                 if ventana == 1:
-                    main_2.Juego(g)    
+                    print("Viento final: ",v)
+                    print("Gravedad final: ",g)
+                    main_2.Juego(g, v)    
 
         if Boton_2.collidepoint((mx, my)):
             if click:
@@ -229,4 +314,4 @@ def Menu_principal(ventana , municion_1, municion_2, municion_3, jugadores, grav
         Reloj.tick(60)
 
 
-Menu_principal(ventana,0,0,0,0,g)
+Menu_principal(ventana,0,0,0,0,g,v)

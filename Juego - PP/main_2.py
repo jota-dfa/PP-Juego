@@ -31,7 +31,15 @@ texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 seleccion_mapa = random.randint(1,3)
 
-def Juego(g):
+def Juego(g, viento_activo):
+
+    if viento_activo == 0:
+        print("Viento Desactivado")
+        viento = 0
+
+    if viento_activo == 1:
+        print("Viento Activado")
+        viento = 10
     
     ##### FUNCIONES PRINCIPALES DEL JUEGO ######
 
@@ -273,10 +281,12 @@ def Juego(g):
                 pygame.display.update()
 
         """ validaciones """        
-        angulo_usuario, velocidad_usuario = validar_angulo(int(angulo_usuario)), validar_velocidad(float(velocidad_usuario))
+        viento_suma = random.randint(-viento,viento)
+        angulo_usuario, velocidad_usuario = validar_angulo(int(angulo_usuario)), validar_velocidad(float(velocidad_usuario)+viento_suma)
         angulo_usuario = Proyectil.Proyectil.grad_a_rad(angulo_usuario)
         posxEmisor, posyEmisor = ((posxEmisor+25), posyEmisor)
-
+        print("Viento Suma: ",viento_suma)
+        print("Velocidad Usuario: ",velocidad_usuario)
         return 0, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino, listaProyectiles, opcProyectil
                  
 

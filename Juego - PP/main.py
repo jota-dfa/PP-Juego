@@ -29,8 +29,14 @@ texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 seleccion_mapa = random.randint(1,3)
 
-def Juego(g):
-    
+def Juego(g, viento_activo):
+    if viento_activo == 0:
+        print("Viento Desactivado")
+        viento = 0
+
+    if viento_activo == 1:
+        print("Viento Activado")
+        viento = 10    
     ##### FUNCIONES PRINCIPALES DEL JUEGO ######
 
     #VENTANA
@@ -149,7 +155,7 @@ def Juego(g):
                 coordenada1_2 = yl4_1
             
      
-########
+        ########
             ##xl8_1=random.randint(300,366)
             ##yl8_1=((0.7*xl8_1)-461)*-1
             
@@ -444,13 +450,13 @@ def Juego(g):
                     if previo != 'i':    
                         if active1 == True:
                             if event.key == pygame.K_BACKSPACE:
-                                angulo_usuario = angulo_usuario[:-1]
+                                angulo_usuario = angulo_usuario[0:-1]
                             else:
                                 angulo_usuario += event.unicode
 
                         if active2 == True:
                             if event.key == pygame.K_BACKSPACE:
-                                velocidad_usuario = velocidad_usuario[:-1]
+                                velocidad_usuario = velocidad_usuario[0:-1]
                             else:
                                 velocidad_usuario += event.unicode
 
@@ -481,11 +487,13 @@ def Juego(g):
 
                 pygame.display.update()
 
-        """ validaciones """        
-        angulo_usuario, velocidad_usuario = validar_angulo(int(angulo_usuario)), validar_velocidad(float(velocidad_usuario))
+        """ validaciones """     
+        viento_suma = random.randint(-viento,viento)   
+        angulo_usuario, velocidad_usuario = validar_angulo(int(angulo_usuario)), validar_velocidad(float(velocidad_usuario)+viento_suma)
         angulo_usuario = Proyectil.Proyectil.grad_a_rad(angulo_usuario)
         posxEmisor, posyEmisor = ((posxEmisor+25), posyEmisor)
-
+        print("Viento Suma: ",viento_suma)
+        print("Velocidad Usuario: ",velocidad_usuario)
         return 0, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino, listaProyectiles, opcProyectil
                  
 
@@ -503,7 +511,7 @@ def Juego(g):
    
 
     while turno != 0: #PRINCIPAL
-        
+
         if cont == 0:
             x1_1, y1_2, x2_1, y2_2 = spawn_tanques(0,seleccion_mapa)
             Tanques.Tanques.p1(VENTANA, x1_1, y1_2,seleccion_mapa) #permanecia de tanques p1
