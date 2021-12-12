@@ -2,9 +2,8 @@ import pygame
 import math
 
 NEGRO = (0, 0, 0)
-
 class Proyectil():
-    
+
     def __init__(self, v,g,t,posXTanque, posYTanque):
         self.v = v # velocidad inicial
         self.g = g #9.8

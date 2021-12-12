@@ -7,7 +7,8 @@ Reloj = pygame.time.Clock()
 from pygame.locals import *
 pygame.init()
 pygame.display.set_caption('Scorched World')
-ventana= -1
+ventana= 0
+g = 9.8
 ALTO = 500
 ANCHO = 800
 VENTANA = pygame.display.set_mode((ANCHO, ALTO))
@@ -20,53 +21,13 @@ def Dibujar_texto(texto, fuente, color, superficie, x, y):
     textrect.topleft = (x, y)
     superficie.blit(textobj, textrect)
 
-def Menu_principal(ventana , municion_1, municion_2, municion_3, jugadores):
-    click = False
-    while True:
-        VENTANA.fill((0,0,0))
-        Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 360, 160) 
-        Dibujar_texto('Opciones', FUENTE, (255,255,255),VENTANA, 345, 260)
-        mx, my = pygame.mouse.get_pos()
- 
-        Boton_1 = pygame.Rect(300, 150, 200, 50)
-        Boton_2 = pygame.Rect(300, 250, 200, 50)
-        if Boton_1.collidepoint((mx, my)):
-            if click:
-                if ventana == 0:
-                    main.Juego()
-
-                if ventana == 1:
-                    main_2.Juego()    
-
-        if Boton_2.collidepoint((mx, my)):
-            if click:
-                Opciones()
-                Menu_principal(ventana,0,0,0,0)
-        pygame.draw.rect(VENTANA, (255, 255,255), Boton_1,1)
-        pygame.draw.rect(VENTANA, (255, 255, 255), Boton_2,1)
- 
-        click = False
-        for evento in pygame.event.get():
-            if evento.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if evento.type == KEYDOWN:
-                if evento.key == K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-            if evento.type == MOUSEBUTTONDOWN:
-                if evento.button == 1:
-                    click = True
- 
-        pygame.display.update()
-        Reloj.tick(60)
  
 def Opciones():
-
     click = False
     correr = True
     while correr:
         VENTANA.fill((0,0,0))
+        Boton_gravedad = pygame.Rect(0, 0, 50, 50) 
         Boton_pantalla = pygame.Rect(300, 150, 200, 50)
         Boton_municiones = pygame.Rect(300, 250, 200, 50)
         Boton_jug = pygame.Rect(300, 350, 200, 50)
@@ -88,11 +49,15 @@ def Opciones():
             if click:
                 jugadores()
                 
+        if Boton_gravedad.collidepoint((mx,my)):
+            if click:
+                g = gravedad()
+
 
         pygame.draw.rect(VENTANA, (255, 255,255), Boton_pantalla,1)
         pygame.draw.rect(VENTANA, (255, 255,255), Boton_municiones,1)
         pygame.draw.rect(VENTANA, (255, 255,255), Boton_jug,1)
-
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_gravedad,1)
 
         click = False
         for event in pygame.event.get():
@@ -101,7 +66,7 @@ def Opciones():
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    Menu_principal(ventana,0,0,0,0)
+                    Menu_principal(ventana,0,0,0,0,g)
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True 
@@ -109,8 +74,12 @@ def Opciones():
     
         pygame.display.update()
         Reloj.tick(60)
-    return ventana    
+    return ventana ,g
 
+def gravedad():
+    g = 90
+    print("90")
+    return g
 
 def pantalla():    
     correr = True
@@ -216,4 +185,48 @@ def jugadores():
         pygame.display.update()
         Reloj.tick(60)
 
-Menu_principal(ventana,0,0,0,0)
+def Menu_principal(ventana , municion_1, municion_2, municion_3, jugadores, gravedad):
+    g = gravedad
+    print("GRavedad : ",gravedad)
+    click = False
+    while True:
+        VENTANA.fill((0,0,0))
+        Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 360, 160) 
+        Dibujar_texto('Opciones', FUENTE, (255,255,255),VENTANA, 345, 260)
+        mx, my = pygame.mouse.get_pos()
+ 
+        Boton_1 = pygame.Rect(300, 150, 200, 50)
+        Boton_2 = pygame.Rect(300, 250, 200, 50)
+        if Boton_1.collidepoint((mx, my)):
+            if click:
+                if ventana == 0:
+                    main.Juego(g)
+
+                if ventana == 1:
+                    main_2.Juego(g)    
+
+        if Boton_2.collidepoint((mx, my)):
+            if click:
+                Opciones()
+                Menu_principal(ventana,0,0,0,0,g)
+        pygame.draw.rect(VENTANA, (255, 255,255), Boton_1,1)
+        pygame.draw.rect(VENTANA, (255, 255, 255), Boton_2,1)
+ 
+        click = False
+        for evento in pygame.event.get():
+            if evento.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if evento.type == KEYDOWN:
+                if evento.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            if evento.type == MOUSEBUTTONDOWN:
+                if evento.button == 1:
+                    click = True
+ 
+        pygame.display.update()
+        Reloj.tick(60)
+
+
+Menu_principal(ventana,0,0,0,0,g)

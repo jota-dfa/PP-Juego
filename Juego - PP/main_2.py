@@ -31,7 +31,7 @@ texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 seleccion_mapa = random.randint(1,3)
 
-def Juego():
+def Juego(g):
     
     ##### FUNCIONES PRINCIPALES DEL JUEGO ######
 
@@ -85,7 +85,7 @@ def Juego():
 
     #PROYECTILES
     def proyectil(t, v, angl, posX, posY): # a,b posTanques
-        tr_x, tr_y = Proyectil.Proyectil.pr_trayectoria(v, 9.8, t, angl, posX, posY)
+        tr_x, tr_y = Proyectil.Proyectil.pr_trayectoria(v, g, t, angl, posX, posY)
         #colision_terreno = True
         #colision_terreno = Mapa_2.Mapa.colision_terreno(tr_x, tr_y)
         Proyectil.Proyectil.dibu_proyectil(tr_x, tr_y, VENTANA)
