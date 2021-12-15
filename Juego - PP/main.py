@@ -107,7 +107,7 @@ def Juego(g, viento_activo):
         return alt_max
 
     def check_colision(x,y, a,b):
-        if(Proyectil.Proyectil.colision_terreno(x, y) == False): # Lim. laterales
+        if(Proyectil.Proyectil.colision_terreno(x, y) == False): # Lim. laterales e inferior
             return False
         if(Mapa.Mapa.colisionBala_terreno(x,y , seleccion_mapa, cont) == False): 
             print("DISTANCIA MAXIMA",dMax)

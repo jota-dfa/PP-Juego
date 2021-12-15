@@ -79,7 +79,9 @@ class Mapa():
             color_cielo = (152,204,255)
 
         if(seleccion_mapa == 1):
-            if(y > 0):
+            if(y > 0): # Permite salir del rango superior sin crashear.
+                if(y > 900): # Si sobrepasa el lim inferior colsiona directamente sin crashear
+                    return False
                 color_terreno = (84,114,128)
                 color_cielo = (152,204,255)
 
@@ -101,6 +103,8 @@ class Mapa():
 
         if (seleccion_mapa == 2):
             if(y > 0):
+                if(y > 900): # Si sobrepasa el lim inferior colsiona directamente sin crashear
+                    return False
                 color_terreno = (114,93,23)
                 color_cielo = (237,253,253)
 
@@ -122,6 +126,8 @@ class Mapa():
 
         if(seleccion_mapa==3):
             if(y > 0):
+                if(y > 900): # Si sobrepasa el lim inferior colsiona directamente sin crashear
+                    return False
                 color_terreno = (117,10,51)
                 color_cielo = (207,207,207)
 

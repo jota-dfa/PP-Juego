@@ -1,4 +1,5 @@
 import pygame
+from PIL import Image
 
 class Tanques():
 
@@ -12,37 +13,175 @@ class Tanques():
         self.b_posT = b_posT
         self.seleccion_mapa = seleccion_mapa
         
-
-    def p1(VENTANA, coordenada1_1, coordenada1_2,seleccion_mapa): # b = random
-        if(seleccion_mapa==1):
-            tanque_1 = pygame.image.load("imagenes/tanque_1.png")
-            VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2)) 
-
-        if(seleccion_mapa==2):
-            tanque_1 = pygame.image.load("imagenes/tanque_11.png")
-            VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2))
+    def caen(turno, seleccion_mapa, posx_tank, posy_tank):
         
-        if(seleccion_mapa==3):
-            tanque_1 = pygame.image.load("imagenes/tanque_111.png")
-            VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2))
+        if seleccion_mapa == 1:
+            
+            color_terreno = (84,114,128)
+            
+            if(turno == 0):
+                im = Image.open("imagenes/1600x900/16m1.png")
+            if(turno != 0):
+                im = Image.open("imagenes/1600x900/16m11.png")
+            im = im.convert("RGBA")
+            pixels = im.load()
+
+            r, g, b, a = pixels[posx_tank, posy_tank]
+
+            while(pixels[posx_tank+25, posy_tank+25] != (84,114,128,255)):
+                posy_tank += 1
+                
+            """while(pixels[posx_tank][posy_tank+25+i] != (84,114,128) and pixels[posx_tank+50][posx_tank+25+i] != (84,114,128)):
+                posy_tank += 1
+                i += 1"""
+
+            return posx_tank, posy_tank
+            
+
+
+    def p1(VENTANA, coordenada1_1, coordenada1_2): # b = random
+        tanque_1 = pygame.image.load("imagenes/tanque_1.png")
+        VENTANA.blit(tanque_1, (coordenada1_1, coordenada1_2)) 
+        
+    def p2(VENTANA, x, y): # a = random
+        tanque_2 = pygame.image.load("imagenes/tanque_2.png")
+        VENTANA.blit(tanque_2, (x, y))
+
+    def p3(VENTANA, x, y): # a = random
+        tanque_2 = pygame.image.load("imagenes/tanque_11.png")
+        VENTANA.blit(tanque_2, (x, y))
+
+    def p4(VENTANA, x, y): # a = random
+        tanque_2 = pygame.image.load("imagenes/tanque_22.png")
+        VENTANA.blit(tanque_2, (x, y))
+
+    def p5(VENTANA, x, y): # a = random
+        tanque_2 = pygame.image.load("imagenes/tanque_111.png")
+        VENTANA.blit(tanque_2, (x, y))
+
+    def p6(VENTANA, x, y): # a = random
+        tanque_2 = pygame.image.load("imagenes/tanque_222.png")
+        VENTANA.blit(tanque_2, (x, y))  
+
+    def col_proyectil_tanque(x_proyect, y_proyect, tuplex, tupley, numTank):
+        
+        if numTank == 2:
+
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True 
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+
+        if numTank == 3:
+        
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+
+        if numTank == 4:
+        
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+
+        if numTank == 5:
+        
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    print("Le pego al tank", tuplex, "," , tupley)
+                    return True
+
+        if numTank == 6:
+        
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    return True
+            if(x_proyect >= tuplex and x_proyect <= tuplex+60):
+                if(y_proyect >= tupley and y_proyect <= tupley+35):
+                    return True
+
         
 
-    def p2(VENTANA, b, y,seleccion_mapa): # a = random
-        if(seleccion_mapa==1):
-            tanque_2 = pygame.image.load("imagenes/tanque_2.png")
-            VENTANA.blit(tanque_2, (b, y))
-        if(seleccion_mapa==2):
-            tanque_2 = pygame.image.load("imagenes/tanque_22.png")
-            VENTANA.blit(tanque_2, (b, y))   
-        if(seleccion_mapa==3):
-            tanque_2 = pygame.image.load("imagenes/tanque_222.png")
-            VENTANA.blit(tanque_2, (b, y))  
-
-    def col_proyectil_tanque(x_proyect, y_proyect, a_posT, b_posT):
-        if(x_proyect >= a_posT and x_proyect <= a_posT+60):
-            if(y_proyect >= b_posT and y_proyect <= b_posT+35):
-                #print("Ok_colison_proyectil_tanque")
-                return True
+    def aparecen(VENTANA, listPos, numTanques): 
+        if numTanques == 2:
+            Tanques.p1(VENTANA, listPos[0][0], listPos[0][1])
+            Tanques.p2(VENTANA, listPos[1][0], listPos[1][1])
+        if numTanques == 3:
+            Tanques.p1(VENTANA, listPos[0][0], listPos[0][1])
+            Tanques.p2(VENTANA, listPos[1][0], listPos[1][1])
+            Tanques.p3(VENTANA, listPos[0][0], listPos[0][1])
+        if numTanques == 4:
+            Tanques.p1(VENTANA, listPos[0][0], listPos[0][1])
+            Tanques.p2(VENTANA, listPos[1][0], listPos[1][1])
+            Tanques.p3(VENTANA, listPos[2][0], listPos[2][1])
+            Tanques.p4(VENTANA, listPos[3][0], listPos[3][1])
+        if numTanques == 5:
+            Tanques.p1(VENTANA, listPos[0][0], listPos[0][1])
+            Tanques.p2(VENTANA, listPos[1][0], listPos[1][1])
+            Tanques.p3(VENTANA, listPos[2][0], listPos[2][1])
+            Tanques.p4(VENTANA, listPos[3][0], listPos[3][1])
+            Tanques.p5(VENTANA, listPos[4][0], listPos[4][1])
+        if numTanques == 6:
+            Tanques.p1(VENTANA, listPos[0][0], listPos[0][1])
+            Tanques.p2(VENTANA, listPos[1][0], listPos[1][1])
+            Tanques.p3(VENTANA, listPos[2][0], listPos[2][1])
+            Tanques.p4(VENTANA, listPos[3][0], listPos[3][1])
+            Tanques.p5(VENTANA, listPos[4][0], listPos[4][1])
+            Tanques.p6(VENTANA, listPos[5][0], listPos[5][1])
 
     def vida(VENTANA, lista, daño, id):
     

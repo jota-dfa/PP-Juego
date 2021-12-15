@@ -38,7 +38,9 @@ class Proyectil():
     def colision_terreno(x,y):   #lim laterales     
         if(x<=0 or x>=800):
             return False
-        '''if(y>=400): ####colision terreno planoooooooooooooooooooo
+        if(y > 500):
+            return False
+        '''if(y>=400): ####colision terreno plano
             return False'''
 
     def proyectiles(lista):

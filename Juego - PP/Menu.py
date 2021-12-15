@@ -47,7 +47,6 @@ def gravedad():
                 if event.key == K_ESCAPE:
                     Menu_principal(ventana,0,0,0,0,g,v)
 
-
         VENTANA.fill((0,0,0)) 
         pygame.draw.rect(VENTANA, (255, 255,255), Boton_gravedad,1)           
         texto_gravedad = FUENTE.render(texto_usuario_gravedad,True,(255,255,255))
