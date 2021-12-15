@@ -29,7 +29,7 @@ texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 seleccion_mapa = random.randint(1,3)
 
-def Juego(g, viento_activo):
+def Juego(g, viento_activo, Lista_proyectiles):
     if viento_activo == 0:
         print("Viento Desactivado")
         viento = 0
@@ -501,11 +501,14 @@ def Juego(g, viento_activo):
     cont = 0
     active = False
     fin_juego = 0
-
+    municion_105 = Lista_proyectiles[2]
+    municion_perfor = Lista_proyectiles[1]
+    municion_60 = Lista_proyectiles[0]
+    listaPosiciones = []
     listaProyectiles = []
     listaProyectilesB = []
-    listaProyectiles = Proyectil.Proyectil.proyectiles(listaProyectiles)
-    listaProyectilesB = Proyectil.Proyectil.proyectiles(listaProyectilesB)
+    listaProyectiles = Proyectil.Proyectil.proyectiles(listaProyectiles,municion_105, municion_perfor,municion_60)
+    listaProyectilesB = Proyectil.Proyectil.proyectiles(listaProyectilesB,municion_105, municion_perfor,municion_60)
     vida = [100, 100]
 
    

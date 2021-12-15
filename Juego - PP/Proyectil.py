@@ -43,19 +43,19 @@ class Proyectil():
         '''if(y>=400): ####colision terreno plano
             return False'''
 
-    def proyectiles(lista):
+    def proyectiles(lista, municion_105,municion_perfor,municion_60):
 
         #proyectil por defecto (5 dmg, infinito)
         lista.append(['por defecto', 10, 0])
 
         #proyectil 105mm (50 dmg, 3 unidades)
-        lista.append(['105mm ', 50, 3])
+        lista.append(['105mm ', 50, municion_105])
         
         #proyectil perforante (40 dmg, 10 undidades)
-        lista.append(['Perfor', 40, 9])
+        lista.append(['Perfor', 40, municion_perfor])
         
         #proyectil 60mmm (30 dmg, 3 unidades)
-        lista.append(['60mm ', 30, 3])
+        lista.append(['60mm ', 30, municion_60])
 
         return lista
 
