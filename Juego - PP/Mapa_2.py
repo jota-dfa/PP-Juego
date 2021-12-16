@@ -1,5 +1,6 @@
 import pygame
 from PIL import Image, ImageDraw
+import math
 
 class Mapa():
 
@@ -41,16 +42,13 @@ class Mapa():
         c = 0
         if(seleccion_mapa == 1):
             if opcion_proyectil == 0:
-                a = 20
-
-            if opcion_proyectil == 1:
-                a = 50
-
-            if opcion_proyectil == 2:
-                a = 100  
-
-            if opcion_proyectil == 3:
-                a = 150
+                a = 25
+            if opcion_proyectil == 1: #daño 50
+                a = 100
+            if opcion_proyectil == 2: #daño 40
+                a = 70  
+            if opcion_proyectil == 3: #daño 30
+                a = 40
 
             if(cont == 1):
                 with Image.open("imagenes/1600x900/16m1.png") as im:
@@ -65,16 +63,13 @@ class Mapa():
         
         if(seleccion_mapa == 2):
             if opcion_proyectil == 0:
-                b = 20
-
-            if opcion_proyectil == 1:
-                b = 50
-
-            if opcion_proyectil == 2:
-                b = 100
-
-            if opcion_proyectil == 3:
-                b = 150
+                a = 25
+            if opcion_proyectil == 1: #daño 50
+                a = 100
+            if opcion_proyectil == 2: #daño 40
+                a = 70  
+            if opcion_proyectil == 3: #daño 30
+                a = 40
                                   
             if(cont == 1):
                 with Image.open("imagenes/1600x900/16m2.png") as im:
@@ -89,16 +84,13 @@ class Mapa():
 
         if(seleccion_mapa == 3):
             if opcion_proyectil == 0:
-                c = 20
-                
-            if opcion_proyectil == 1:
-                c = 50 
-
-            if opcion_proyectil == 2:
-                c = 100 
-
-            if opcion_proyectil == 3:
-                c = 150   
+                a = 25
+            if opcion_proyectil == 1: #daño 50
+                a = 100
+            if opcion_proyectil == 2: #daño 40
+                a = 70  
+            if opcion_proyectil == 3: #daño 30
+                a = 40 
 
             if(cont == 1):
                 with Image.open("imagenes/1600x900/16m3.png") as im:
@@ -110,8 +102,7 @@ class Mapa():
                     draw = ImageDraw.Draw(im)
                     draw.ellipse((x-c, y-c, x+c, y+c), fill=(207,207,207))
                     im.save("imagenes/1600x900/16m33.png")
-            
-
+    
     def colisionBala_terreno(x, y, seleccion_mapa, cont):
         if seleccion_mapa == 0:
             color_terreno = (84,114,128)
@@ -193,3 +184,111 @@ class Mapa():
         
         '''if(y>=400): ####colision terreno planoooooooooooooooooooo
             return False'''
+
+    def dañoRadio(x,y , numTanks, vida, indexListPos, opcProyectil, listaPos):
+        
+        print("Tanque", indexListPos)
+        print("proyectil", opcProyectil)
+
+
+        if opcProyectil == 0: # Daño 10
+            for i in range(numTanks):
+                x1 = listaPos[i][0]
+                y1 = listaPos[i][1]
+
+                print("radio", math.sqrt( math.pow(x1 - x, 2) + (math.pow(y1 -y, 2))))
+                
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1 -y), 2))) <= 32):
+                    vida[i] = vida[i]-10
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1 -y), 2))) <= 32):
+                    vida[i] = vida[i]-10
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1+30 -y), 2))) <= 32):
+                    vida[i] = vida[i]-10
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1+30 -y), 2))) <= 32):
+                    vida[i] = vida[i]-10
+                    print("daño por explosion")
+                    return vida
+
+        if opcProyectil == 1: # Daño 50
+            for i in range(numTanks):
+                
+                x1 = listaPos[i][0]
+                y1 = listaPos[i][1]
+
+                #print(math.sqrt( math.pow(x1 - x, 2) + (math.pow(y1 -y, 2))))
+                
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1 -y), 2))) <= 50):
+                    vida[i] = vida[i]-50
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1 -y), 2))) <= 50):
+                    vida[i] = vida[i]-50
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1+30 -y), 2))) <= 50):
+                    vida[i] = vida[i]-50
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1+30 -y), 2))) <= 50):
+                    vida[i] = vida[i]-50
+                    print("daño por explosion")
+                    return vida
+
+        if opcProyectil == 2: # Daño 40
+            for i in range(numTanks):
+                x1 = listaPos[i][0]
+                y1 = listaPos[i][1]
+
+                #print(math.sqrt( math.pow(x1 - x, 2) + (math.pow(y1 -y, 2))))
+                
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1 -y), 2))) <= 35):
+                    vida[i] = vida[i]-40
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1 -y), 2))) <= 35):
+                    vida[i] = vida[i]-40
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1+30 -y), 2))) <= 35):
+                    vida[i] = vida[i]-40
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1+30 -y), 2))) <= 35):
+                    vida[i] = vida[i]-40
+                    print("daño por explosion")
+                    return vida
+
+        if opcProyectil == 3: # Daño 30
+            for i in range(numTanks):
+                x1 = listaPos[i][0]
+                y1 = listaPos[i][1]
+
+                #print(math.sqrt( math.pow(x1 - x, 2) + (math.pow(y1 -y, 2))))
+                
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1 -y), 2))) <= 20):
+                    vida[i] = vida[i]-30
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1 -y), 2))) <= 20):
+                    vida[i] = vida[i]-30
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1 - x), 2) + (math.pow((y1+30 -y), 2))) <= 20):
+                    vida[i] = vida[i]-30
+                    print("daño por explosion")
+                    return vida
+                if(math.sqrt( math.pow((x1+60 - x), 2) + (math.pow((y1+30 -y), 2))) <= 20):
+                    vida[i] = vida[i]-30
+                    print("daño por explosion")
+                    return vida
+
+        return vida
+
+
+        

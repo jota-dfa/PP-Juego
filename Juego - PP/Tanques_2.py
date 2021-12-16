@@ -184,8 +184,9 @@ class Tanques():
             Tanques.p6(VENTANA, listPos[5][0], listPos[5][1])
 
     def vida(VENTANA, lista, daño, id):
-    
-        vida_1, vida_2 = lista[0], lista[1]
+        
+        fuente = pygame.font.SysFont("century gothic", 15)
+        vida_1, vida_2, vida_3, vida_4, vida_5, vida_6 = lista[0], lista[1],lista[2], lista[3],lista[4], lista[5]
 
         #pygame.draw.rect(VENTANA, 'black', [0, 425, 100, 25])
         #pygame.draw.rect(VENTANA, 'black', [700, 425, 100, 25])
@@ -193,6 +194,7 @@ class Tanques():
         #pygame.draw.rect(VENTANA, 'green', [0, 420, vida_1, 30])
         #pygame.draw.rect(VENTANA, 'green', [700, 420, vida_2, 30])
 
+        # Resta la vida
         if id == 1:
             vida_1 = vida_1 - daño
             lista[0] = vida_1
@@ -200,9 +202,38 @@ class Tanques():
         if id == 2:
             vida_2 = vida_2 - daño
             lista[1] = vida_2
+        
+        if id == 3:
+            vida_3 = vida_3 - daño
+            lista[2] = vida_3
+        
+        if id == 4:
+            vida_4 = vida_4 - daño
+            lista[3] = vida_4
 
+        if id == 5:
+            vida_5 = vida_5 - daño
+            lista[4] = vida_5
+        
+        if id == 6:
+            vida_6 = vida_6 - daño
+            lista[5] = vida_6
 
-        pygame.draw.rect(VENTANA, 'green', [0, 700, vida_1, 50])
-        pygame.draw.rect(VENTANA, 'green', [1500, 700, vida_2, 50])
+        textoV1 = fuente.render("Vida P1: "+ str(lista[0]), True,(255,255,255),0)
+        textoV2 = fuente.render("Vida P2: "+ str(lista[1]), True,(255,255,255),0)
+        textoV3 = fuente.render("Vida P3: "+ str(lista[2]), True,(255,255,255),0)
+        textoV4 = fuente.render("Vida P4: "+ str(lista[3]), True,(255,255,255),0)
+        textoV5 = fuente.render("Vida P5: "+ str(lista[4]), True,(255,255,255),0)
+        textoV6 = fuente.render("Vida P6: "+ str(lista[5]), True,(255,255,255),0)
+        
+        inX = 1480
+        inY = 500
+
+        VENTANA.blit(textoV1, (inX, inY+20))
+        VENTANA.blit(textoV2, (inX, inY+40))
+        VENTANA.blit(textoV3, (inX, inY+60))
+        VENTANA.blit(textoV4, (inX, inY+80))
+        VENTANA.blit(textoV5, (inX, inY+100))
+        VENTANA.blit(textoV6, (inX, inY+120))
 
         return lista
