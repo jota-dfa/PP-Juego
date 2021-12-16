@@ -31,7 +31,7 @@ texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 seleccion_mapa = 1#random.randint(1,3)
 
-def Juego(g, viento_activo, Lista_proyectiles):
+def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
     if viento_activo == 0:
         print("Viento Desactivado")
@@ -336,7 +336,7 @@ def Juego(g, viento_activo, Lista_proyectiles):
     listaProyectilesB = Proyectil.Proyectil.proyectiles(listaProyectilesB,municion_105, municion_perfor,municion_60)
     vida = [100, 100, 100, 100, 100, 100, 100, 100]
 
-    numTanques = 6
+    numTanques = jugadores
     posEmisor = 0
     aux = 0
     indexListPos = 0
@@ -397,7 +397,7 @@ def Juego(g, viento_activo, Lista_proyectiles):
         if(colision == False):     ##### False = colisiono terreno -> cambia turno
 
             indexListPos += 1
-            Mapa_2.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, aux)
+            Mapa_2.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, aux,opcProyectil)
             turno = 1
             elem_iniciales2(seleccion_mapa)
             Opciones_izq()
@@ -406,7 +406,7 @@ def Juego(g, viento_activo, Lista_proyectiles):
             elem_iniciales2(seleccion_mapa)
             Opciones_izq()
             indexListPos += 1
-            Mapa_2.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, aux)
+            Mapa_2.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, aux, opcProyectil)
             vida = Tanques_2.Tanques.vida(VENTANA, vida, listaProyectiles[opcProyectil][1], indexListPos) 
             pygame.display.update()
             #print("a ganado el jugador ", turno)

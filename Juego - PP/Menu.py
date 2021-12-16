@@ -7,7 +7,7 @@ Reloj = pygame.time.Clock()
 from pygame.locals import *
 pygame.init()
 pygame.display.set_caption('Scorched World')
-texto_usuario_gravedad = '9.8'
+texto_usuario_jugadores = '9.8'
 ALTO = 500
 ANCHO = 800
 VENTANA = pygame.display.set_mode((ANCHO, ALTO))
@@ -21,25 +21,39 @@ def Dibujar_texto(texto, fuente, color, superficie, x, y):
 
 def Opciones():
     def jugadores():
+        texto_ventana = 'Introduzca la cantidad de jugadores'
+        texto_usuario_jugadores = ''
+        int_jugadores = 0
+        Boton_jugadores = pygame.Rect(300, 200, 200, 50)
         correr = True
-        click = False
         while correr:
-            VENTANA.fill((0,0,0))
-            Dibujar_texto('PROXIMAMENTE', FUENTE, (255, 255, 255), VENTANA, 20, 20)
-            
-            click = False
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        Opciones()
-                if event.type == MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        click = True 
+                if event.type == pygame.KEYDOWN:
+
+                    if event.key == pygame.K_BACKSPACE:
+                        texto_usuario_jugadores = texto_usuario_jugadores[0:-1]
+
+                    else:    
+                        texto_usuario_jugadores += event.unicode
+                    
+                    if event.key == pygame.K_SPACE:
+                        int_jugadores = int(texto_usuario_jugadores)
+                        correr = False
+
+
+            VENTANA.fill((0,0,0)) 
+            pygame.draw.rect(VENTANA, (255, 255,255), Boton_jugadores,1)           
+            texto_jugadores = FUENTE.render(texto_usuario_jugadores,True,(255,255,255))
+            texto_ventana_inter = FUENTE.render(texto_ventana,True,(255,255,255))
+            VENTANA.blit(texto_ventana_inter,(250,100))
+            VENTANA.blit(texto_jugadores,Boton_jugadores)
             pygame.display.update()
-            Reloj.tick(60)   
+            Reloj.tick(60)
+
+        return int_jugadores 
 
     def municiones(): 
         bala_int_60mm = 3
@@ -260,7 +274,7 @@ def Opciones():
 
     def gravedad():
         texto_ventana = 'Introduzca la gravedad'
-        texto_usuario_gravedad = ''
+        texto_usuario_jugadores = ''
         float_gravedad = 0.0
         Boton_gravedad = pygame.Rect(300, 200, 200, 50)
         correr = True
@@ -272,20 +286,20 @@ def Opciones():
                 if event.type == pygame.KEYDOWN:
 
                     if event.key == pygame.K_BACKSPACE:
-                        texto_usuario_gravedad = texto_usuario_gravedad[0:-1]
+                        texto_usuario_jugadores = texto_usuario_jugadores[0:-1]
 
                     else:    
-                        texto_usuario_gravedad += event.unicode
+                        texto_usuario_jugadores += event.unicode
                     
                     if event.key == pygame.K_SPACE:
-                        float_gravedad = float(texto_usuario_gravedad)
+                        float_gravedad = float(texto_usuario_jugadores)
                         correr = False
                     if event.key == K_ESCAPE:
                         Opciones()
 
             VENTANA.fill((0,0,0)) 
             pygame.draw.rect(VENTANA, (255, 255,255), Boton_gravedad,1)           
-            texto_gravedad = FUENTE.render(texto_usuario_gravedad,True,(255,255,255))
+            texto_gravedad = FUENTE.render(texto_usuario_jugadores,True,(255,255,255))
             texto_ventana_inter = FUENTE.render(texto_ventana,True,(255,255,255))
             VENTANA.blit(texto_ventana_inter,(270,100))
             VENTANA.blit(texto_gravedad,Boton_gravedad)
@@ -295,7 +309,7 @@ def Opciones():
         return float_gravedad
 
 
-    lista_elementos=[0,3,5,3,9.8,0,0]
+    lista_elementos=[0,3,5,3,9.8,0,2]
     click = False
     correr = True
     while correr:
@@ -326,7 +340,7 @@ def Opciones():
 
         if Boton_jug.collidepoint((mx, my)):
             if click:
-                jugadores()
+               lista_elementos[6] = jugadores()
                 
         if Boton_gravedad.collidepoint((mx,my)):
             if click:
@@ -366,6 +380,8 @@ def Menu_principal(lista_elementos):
         Lista_proyect = [lista_elementos[1],lista_elementos[2],lista_elementos[3]]
         g = lista_elementos[4]
         v = lista_elementos[5]
+        jugadores = lista_elementos[6]
+
         VENTANA.fill((0,0,0))
         Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 360, 160) 
         Dibujar_texto('Opciones', FUENTE, (255,255,255),VENTANA, 345, 260)
@@ -388,7 +404,7 @@ def Menu_principal(lista_elementos):
                 if ventana == 1:
                     print("Viento final: ",v)
                     print("Gravedad final: ",g)
-                    main_2.Juego(g, v ,Lista_proyect)    
+                    main_2.Juego(g, v ,Lista_proyect, jugadores)    
         
         pygame.draw.rect(VENTANA, (255, 255,255), Boton_1,1)
         pygame.draw.rect(VENTANA, (255, 255, 255), Boton_2,1)

@@ -555,11 +555,11 @@ def Juego(g, viento_activo, Lista_proyectiles):
                      
             if(cont % 2 != 0): # opcProyectil
                 #turno 1
-                Mapa.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, cont)
+                Mapa.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, cont,opcProyectil)
                 turno = 2
             else:
                 #turno 2
-                Mapa.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, cont)
+                Mapa.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, cont,opcProyectil)
                 turno = 1
             elem_iniciales2(seleccion_mapa)
             Opciones_izq()   

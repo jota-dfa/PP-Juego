@@ -34,42 +34,81 @@ class Mapa():
             piso = pygame.image.load("imagenes/800x500/m33.png")
             VENTANA.blit(piso, (0, 0))
 
-    def destruccionMapa(VENTANA, x,y, seleccion_mapa, cont):
-        
+    def destruccionMapa(VENTANA, x,y, seleccion_mapa, cont, opcion_proyectil):
+        print("ENTRA EN DESTRUCCION CON VALOR OPC : ", opcion_proyectil)
+        a = 0
+        b = 0
+        c = 0
         if(seleccion_mapa == 1):
+            if opcion_proyectil == 0:
+                a = 20
+
+            if opcion_proyectil == 1:
+                a = 50
+
+            if opcion_proyectil == 2:
+                a = 100
+
+            if opcion_proyectil == 3:
+                a = 150  
+            
             if(cont == 1):
                 with Image.open("imagenes/800x500/m1.png") as im:
                     draw = ImageDraw.Draw(im)
-                    draw.ellipse((x-50, y-50, x+50, y+50), fill=(152,204,255))
+                    draw.ellipse((x-a, y-a, x+a, y+a), fill=(152,204,255))
                     im.save("imagenes/800x500/m11.png")
             if(cont > 1):
                 with Image.open("imagenes/800x500/m11.png") as im:
                     draw = ImageDraw.Draw(im)
-                    draw.ellipse((x-50, y-50, x+50, y+50), fill=(152,204,255))
+                    draw.ellipse((x-a, y-a, x+a, y+a), fill=(152,204,255))
                     im.save("imagenes/800x500/m11.png")
 
         if(seleccion_mapa == 2):
+            if opcion_proyectil == 0:
+                b = 20
+
+            if opcion_proyectil == 1:
+                b = 50
+
+            if opcion_proyectil == 2:
+                b = 100
+
+            if opcion_proyectil == 3:
+                b = 150  
+
             if(cont == 1):
                 with Image.open("imagenes/800x500/m2.png") as im:
                     draw = ImageDraw.Draw(im)
-                    draw.ellipse((x-50, y-50, x+50, y+50), fill=(237,253,253))
+                    draw.ellipse((x-b, y-b, x+b, y+b), fill=(237,253,253))
                     im.save("imagenes/800x500/m22.png")
             if(cont > 1):
                 with Image.open("imagenes/800x500/m22.png") as im:
                     draw = ImageDraw.Draw(im)
-                    draw.ellipse((x-50, y-50, x+50, y+50), fill=(237,253,253))
+                    draw.ellipse((x-b, y-b, x+b, y+b), fill=(237,253,253))
                     im.save("imagenes/800x500/m22.png")
 
         if(seleccion_mapa == 3):
+            if opcion_proyectil == 0:
+                c = 20
+
+            if opcion_proyectil == 1:
+                c = 50       
+
+            if opcion_proyectil == 2:
+                c = 100
+
+            if opcion_proyectil == 3:
+                c = 150 
+
             if(cont == 1):
                 with Image.open("imagenes/800x500/m3.png") as im:
                     draw = ImageDraw.Draw(im)
-                    draw.ellipse((x-50, y-50, x+50, y+50), fill=(207,207,207))
+                    draw.ellipse((x-c, y-c, x+c, y+c), fill=(207,207,207))
                     im.save("imagenes/800x500/m33.png")
             if(cont > 1):
                 with Image.open("imagenes/800x500/m33.png") as im:
                     draw = ImageDraw.Draw(im)
-                    draw.ellipse((x-50, y-50, x+50, y+50), fill=(207,207,207))
+                    draw.ellipse((x-c, y-c, x+c, y+c), fill=(207,207,207))
                     im.save("imagenes/800x500/m33.png")
 
     def colisionBala_terreno(x, y, seleccion_mapa, cont):
