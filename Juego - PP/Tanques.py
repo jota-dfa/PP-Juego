@@ -1,4 +1,5 @@
 import pygame
+from PIL import Image
 
 class Tanques():
 
@@ -43,6 +44,33 @@ class Tanques():
             if(y_proyect >= b_posT and y_proyect <= b_posT+35):
                 #print("Ok_colison_proyectil_tanque")
                 return True
+
+    def caen(turno, seleccion_mapa, posx_tank, posy_tank):
+        
+        contCaida = 0
+
+        if seleccion_mapa == 1:
+            
+            color_terreno = (84,114,128)
+            
+            if(turno == 0):
+                im = Image.open("imagenes/800x500/m1.png")
+            if(turno != 0):
+                im = Image.open("imagenes/800x500/m11.png")
+            im = im.convert("RGBA")
+            pixels = im.load()
+
+            r, g, b, a = pixels[posx_tank, posy_tank]
+
+            while(pixels[posx_tank+25, posy_tank+25] != (84,114,128,255)):
+                posy_tank += 1
+                contCaida += 1
+                
+            """while(pixels[posx_tank][posy_tank+25+i] != (84,114,128) and pixels[posx_tank+50][posx_tank+25+i] != (84,114,128)):
+                posy_tank += 1
+                i += 1"""
+
+            return (posx_tank, posy_tank) , contCaida
 
     def vida(VENTANA, lista, daño, id):
     

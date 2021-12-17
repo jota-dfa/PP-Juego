@@ -511,7 +511,6 @@ def Juego(g, viento_activo, Lista_proyectiles):
     listaProyectilesB = Proyectil.Proyectil.proyectiles(listaProyectilesB,municion_105, municion_perfor,municion_60)
     vida = [100, 100]
 
-   
 
     while turno != 0: #PRINCIPAL
 
@@ -520,6 +519,10 @@ def Juego(g, viento_activo, Lista_proyectiles):
             Tanques.Tanques.p1(VENTANA, x1_1, y1_2,seleccion_mapa) #permanecia de tanques p1
             Tanques.Tanques.p2(VENTANA, x2_1,y2_2,seleccion_mapa)
             vida = Tanques.Tanques.vida(VENTANA, vida, 0, 0)
+            #listaPosiciones[0], contCaida = Tanques.Tanques.caen(0, seleccion_mapa, listaPosiciones[0][0], listaPosiciones[0][1])
+            #listaPosiciones[1], contCaida = Tanques.Tanques.caen(0, seleccion_mapa, listaPosiciones[1][0], listaPosiciones[1][1])
+            elem_inciales(seleccion_mapa)
+            Opciones_izq()
 
         vida = Tanques.Tanques.vida(VENTANA, vida, 0, 0)
         pygame.display.update()
@@ -533,7 +536,8 @@ def Juego(g, viento_activo, Lista_proyectiles):
             #fin_juego, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino
             InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x1_1, y1_2)
             fin_juego, angulo, velocidad, posX_tanque, posY_tanque, col_posxT, col_posyT, listaProyectiles, opcProyectil = turno_1(x1_1, y1_2, x2_1, y2_2, listaProyectiles, 1)
-            
+            #listaPosiciones[0], contCaida = Tanques.Tanques.caen(0, seleccion_mapa, listaPosiciones[0][0], listaPosiciones[0][1])
+            #listaPosiciones[1], contCaida = Tanques.Tanques.caen(0, seleccion_mapa, listaPosiciones[1][0], listaPosiciones[1][1])
             t = 0
             alt_max = Altura_maximo(velocidad , angulo)
             turno += 5 #no entrada
@@ -617,6 +621,8 @@ def Juego(g, viento_activo, Lista_proyectiles):
             alt_max = Altura_maximo(velocidad , angulo)
             turno += 5 #no entrada
             cont += 1 #Contador de turnos
+            #listaPosiciones[0], contCaida = Tanques.Tanques.caen(0, seleccion_mapa, listaPosiciones[0][0], listaPosiciones[0][1])
+            #listaPosiciones[1], contCaida = Tanques.Tanques.caen(0, seleccion_mapa, listaPosiciones[1][0], listaPosiciones[1][1])
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()            

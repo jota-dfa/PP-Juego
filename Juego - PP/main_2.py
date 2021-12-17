@@ -288,8 +288,17 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
                     if previo == 'i':
                         listaProyectiles, opcProyectil = InterfazJuego_2.InterfazJuego.menuProyectiles(VENTANA, xEmisor, yEmisor, listaProyectiles)
-                        elem_iniciales2(seleccion_mapa)
-                        Opciones_izq()
+                        if(turno == 0):
+                            elem_inciales(seleccion_mapa)
+                            Opciones_izq()
+                            Tanques_2.Tanques.aparecen(VENTANA, listaPosiciones, numTanques)
+                            #InterfazJuego_2.InterfazJuego.marcadorJugador(VENTANA, 1, xEmisor, yEmisor)
+                        else:
+                            elem_iniciales2(seleccion_mapa)
+                            Opciones_izq()
+                            Tanques_2.Tanques.aparecen(VENTANA, listaPosiciones, numTanques)
+                            #InterfazJuego_2.InterfazJuego.marcadorJugador(VENTANA, 1, xEmisor, yEmisor)
+
                         """if turno == 1:
                             Tanques_2.Tanques.p1(VENTANA, posxEmisor, posyEmisor) #permanecia de tanques p1
                             Tanques_2.Tanques.p2(VENTANA, posxDestino, posyDestino)
@@ -348,7 +357,7 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         if aux == 0: #Carga elementos iniciales -> elem_inciales(seleccion_mapa)
             listaPosiciones = spawn_tanques(0,seleccion_mapa,numTanques, vida) #num tanques
             for i in range(numTanques): #num tanques
-                listaPosiciones[i] = Tanques_2.Tanques.caen(aux, seleccion_mapa, listaPosiciones[i][0], listaPosiciones[i][1])
+                listaPosiciones[i], contCaida = Tanques_2.Tanques.caen(aux, seleccion_mapa, listaPosiciones[i][0], listaPosiciones[i][1])
                 elem_inciales(seleccion_mapa)
                 Opciones_izq()
                 
@@ -371,11 +380,11 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         pygame.display.update()  #Actualizacion ventana       
         InterfazJuego_2.InterfazJuego.altura_distancia()         
 
-        if turno == 1:
+        if turno == 1: ## Turno == 1, acciones de jugador
             print("\nJUGADOR", indexListPos+1)
             #fin_juego, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino
             InterfazJuego_2.InterfazJuego.marcadorJugador(VENTANA, 1, x1_1, y1_2)
-            fin_juego, angulo, velocidad, posX_tanque, posY_tanque, listaProyectiles, opcProyectil = turno_1(x1_1, y1_2, listaProyectiles, 1)
+            fin_juego, angulo, velocidad, posX_tanque, posY_tanque, listaProyectiles, opcProyectil = turno_1(x1_1, y1_2, listaProyectiles, aux)
 
             t = 0
             alt_max = Altura_maximo(velocidad , angulo)
@@ -450,7 +459,8 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         ''' FIN COLISIONES '''
 
         for i in range(numTanques):
-            listaPosiciones[i] = Tanques_2.Tanques.caen(aux, seleccion_mapa, listaPosiciones[i][0], listaPosiciones[i][1])
+            listaPosiciones[i], contCaida = Tanques_2.Tanques.caen(aux, seleccion_mapa, listaPosiciones[i][0], listaPosiciones[i][1])
+            vida = Tanques_2.Tanques.vida(VENTANA, vida, (contCaida*0.2), i+1)
         #elem_iniciales2(seleccion_mapa)
         Opciones_izq()
         Tanques_2.Tanques.aparecen(VENTANA, listaPosiciones, numTanques)

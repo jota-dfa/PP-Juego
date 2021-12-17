@@ -15,6 +15,8 @@ class Tanques():
         
     def caen(turno, seleccion_mapa, posx_tank, posy_tank):
         
+        contCaida = 0
+
         if seleccion_mapa == 1:
             
             color_terreno = (84,114,128)
@@ -30,14 +32,14 @@ class Tanques():
 
             while(pixels[posx_tank+25, posy_tank+25] != (84,114,128,255)):
                 posy_tank += 1
+                contCaida += 1
                 
             """while(pixels[posx_tank][posy_tank+25+i] != (84,114,128) and pixels[posx_tank+50][posx_tank+25+i] != (84,114,128)):
                 posy_tank += 1
                 i += 1"""
 
-            return posx_tank, posy_tank
+            return (posx_tank, posy_tank) , contCaida
             
-
 
     def p1(VENTANA, coordenada1_1, coordenada1_2): # b = random
         tanque_1 = pygame.image.load("imagenes/tanque_1.png")
