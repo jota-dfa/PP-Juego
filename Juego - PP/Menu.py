@@ -399,12 +399,16 @@ def Menu_principal(lista_elementos):
                 if ventana == 0:
                     print("Viento final: ",v)
                     print("Gravedad final: ",g)
-                    main.Juego(g, v ,Lista_proyect)
+                    salirTodo = main.Juego(g, v ,Lista_proyect)
+                    if salirTodo == -1:
+                        return -1000
 
                 if ventana == 1:
                     print("Viento final: ",v)
                     print("Gravedad final: ",g)
-                    main_2.Juego(g, v ,Lista_proyect, jugadores)    
+                    salirTodo = main_2.Juego(g, v ,Lista_proyect, jugadores)
+                    if salirTodo == -1:
+                        exit()    
         
         pygame.draw.rect(VENTANA, (255, 255,255), Boton_1,1)
         pygame.draw.rect(VENTANA, (255, 255, 255), Boton_2,1)

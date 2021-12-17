@@ -29,6 +29,7 @@ VENTANA = pygame.display.set_mode((ANCHO, ALTO))
 fuente_base = pygame.font.Font(None,50)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
+textoBotonSalir = 'Salir'
 seleccion_mapa = 1#random.randint(1,3)
 
 def Juego(g, viento_activo, Lista_proyectiles, jugadores):
@@ -48,6 +49,7 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
     Velocidad_usuario = ''
     Rect_izq_1 = pygame.Rect(150,830, 100,50)#Angulo izq
     Rect_izq_2 = pygame.Rect(1450,830, 100,50)#Velocidad izq
+    Rect_izq_3 = pygame.Rect(750,10, 100,50)#Velocidad izq
     
     clock = pygame.time.Clock()######################################
     VENTANA = pygame.display.set_mode((ANCHO, ALTO)) # (Horizontal, Vertical)
@@ -57,11 +59,14 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         pygame.draw.rect(VENTANA, BLANCO,( 0, 700, 10000, 600))
         pygame.draw.rect(VENTANA, GRIS, Rect_izq_1,2) #Ventana angulo
         pygame.draw.rect(VENTANA, GRIS, Rect_izq_2,2) #Ventana
+        pygame.draw.rect(VENTANA, GRIS, Rect_izq_3,2) #Ventana boton salir
         
         texto_B_angulo = fuente_base.render(texto_angulo,True,(0,0,0))
         texto_B_velocidad = fuente_base.render(texto_velocidad,True,(0,0,0))
+        texto_B_salir = fuente_base.render(textoBotonSalir,True,(0,0,0))
         VENTANA.blit(texto_B_angulo,(Rect_izq_1.x - 140 , Rect_izq_1.y + 10))
         VENTANA.blit(texto_B_velocidad,(Rect_izq_2.x - 185,Rect_izq_2.y + 10))
+        VENTANA.blit(texto_B_salir,(Rect_izq_3.x - 0,Rect_izq_3.y + 0))
 
     def Opciones_validar_ang():
         pygame.draw.rect(VENTANA, BLANCO,( 0, 450, 400 , 500))
@@ -202,7 +207,8 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
     def turno_1(posxEmisor, posyEmisor, listaProyectiles, turno):
         
         boton_rectangulo = pygame.Rect([0, 0, 40, 40])
-        boton_rect =  boton_rect = pygame.Rect(740,10, 50,25)
+        boton_rect = pygame.Rect(740,10, 50,25)
+        boton_salir = pygame.Rect(740,10, 50,25)
         #Rect_izq_1 = pygame.Rect(100,460, 50,25)#Angulo izq
         #Rect_izq_2 = pygame.Rect(600,460, 50,25)#Velocidad izq
         xEmisor, yEmisor = posxEmisor+10, posyEmisor-190
@@ -210,6 +216,7 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         opcProyectil = 0#listaProyectiles[0][2]
         angulo_usuario = ''
         velocidad_usuario = ''
+        botonSalir = ''
         fin_turno = 0
         active = 0
         active1 = False
@@ -218,6 +225,7 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
             text_surface1 = fuente_base.render(angulo_usuario, True,(0,0,0))
             text_surface2 = fuente_base.render(velocidad_usuario, True,(0,0,0))
+            #text_surface3 = fuente_base.render(botonSalir, True,(0,0,0))
             
             boton = pygame.image.load("imagenes/button_reset_n.png")
             VENTANA.blit(boton, (0, 0))
@@ -244,7 +252,8 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
                     """ boton salir """
                     if boton_rect.collidepoint(event.pos):
-                        return 1,0,0,0,0,listaProyectiles, opcProyectil
+                        print("apreto salir")
+                        return -1,0,0,0,0,listaProyectiles, opcProyectil
 
                     """ boton reinicio """
                     if boton_rectangulo.collidepoint(event.pos):
@@ -391,7 +400,10 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
             turno += 5 #no entrada
             aux += 1 #Contador de turnos
             posEmisor += 1
-            
+
+        if(fin_juego == -1):
+            return -1
+
         time.sleep(0.002)
         t = t+0.02*10 #velocidad *5
         x, y = proyectil(t, velocidad, angulo, posX_tanque, posY_tanque-15)
