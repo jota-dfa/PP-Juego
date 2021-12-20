@@ -39,6 +39,52 @@ class Tanques():
                 i += 1"""
 
             return (posx_tank, posy_tank) , contCaida
+
+        if seleccion_mapa == 2:
+            
+            color_terreno = (114,93,23)
+            
+            if(turno == 0):
+                im = Image.open("imagenes/1600x900/16m2.png")
+            if(turno != 0):
+                im = Image.open("imagenes/1600x900/16m22.png")
+            im = im.convert("RGBA")
+            pixels = im.load()
+
+            r, g, b, a = pixels[posx_tank, posy_tank]
+
+            while(pixels[posx_tank+25, posy_tank+25] != (114,93,23,255)):
+                posy_tank += 1
+                contCaida += 1
+                
+            """while(pixels[posx_tank][posy_tank+25+i] != (84,114,128) and pixels[posx_tank+50][posx_tank+25+i] != (84,114,128)):
+                posy_tank += 1
+                i += 1"""
+
+            return (posx_tank, posy_tank) , contCaida
+
+        if seleccion_mapa == 3:
+            
+            color_terreno = (117,10,51)
+            
+            if(turno == 0):
+                im = Image.open("imagenes/1600x900/16m3.png")
+            if(turno != 0):
+                im = Image.open("imagenes/1600x900/16m33.png")
+            im = im.convert("RGBA")
+            pixels = im.load()
+
+            r, g, b, a = pixels[posx_tank, posy_tank]
+
+            while(pixels[posx_tank+25, posy_tank+25] != (117,10,51,255)):
+                posy_tank += 1
+                contCaida += 1
+                
+            """while(pixels[posx_tank][posy_tank+25+i] != (84,114,128) and pixels[posx_tank+50][posx_tank+25+i] != (84,114,128)):
+                posy_tank += 1
+                i += 1"""
+
+            return (posx_tank, posy_tank) , contCaida
             
 
     def p1(VENTANA, coordenada1_1, coordenada1_2): # b = random

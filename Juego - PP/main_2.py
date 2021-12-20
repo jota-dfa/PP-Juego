@@ -30,7 +30,7 @@ fuente_base = pygame.font.Font(None,50)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 textoBotonSalir = 'Salir'
-seleccion_mapa = 1#random.randint(1,3)
+seleccion_mapa = 2#random.randint(1,3)
 
 def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
@@ -153,11 +153,11 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
                 if( i == 2 ):
                     Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
                 if( i == 3 ):
-                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 4 ):
                     Tanques_2.Tanques.p4(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 5 ):
+                if( i == 4 ):
                     Tanques_2.Tanques.p5(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 5 ):
+                    Tanques_2.Tanques.p6(VENTANA, listPos[i][0], listPos[i][1])
 
             return listPos
         
@@ -181,11 +181,11 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
                 if( i == 2 ):
                     Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
                 if( i == 3 ):
-                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 4 ):
                     Tanques_2.Tanques.p4(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 5 ):
+                if( i == 4 ):
                     Tanques_2.Tanques.p5(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 5 ):
+                    Tanques_2.Tanques.p6(VENTANA, listPos[i][0], listPos[i][1])
 
             return listPos
         
@@ -421,7 +421,7 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         if aux == 0: #Carga elementos iniciales -> elem_inciales(seleccion_mapa)
             listaPosiciones = spawn_tanques(0,seleccion_mapa,numTanques, vida) #num tanques
             for i in range(numTanques): #num tanques
-                listaPosiciones[i], contCaida = Tanques_2.Tanques.caen(aux, seleccion_mapa, listaPosiciones[i][0], listaPosiciones[i][1])
+                listaPosiciones[i], contCaida = Tanques_2.Tanques.caen(aux, seleccion_mapa, listaPosiciones[i][0], listaPosiciones[i][1] )
                 elem_inciales(seleccion_mapa)
                 Opciones_izq()
                 
