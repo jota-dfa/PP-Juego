@@ -529,10 +529,10 @@ def Juego(g, viento_activo, Lista_proyectiles):
 
         pygame.display.update()  #Actualizacion ventana       
         InterfazJuego.InterfazJuego.altura_distancia()         
-        #InterfazJuego.InterfazJuego.botonSalir() ##################
 
         if turno == 1:
             print("\nJUGADOR 1")
+            InterfazJuego.InterfazJuego.botonSalir() ##################
             #fin_juego, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino
             InterfazJuego.InterfazJuego.marcadorJugador(VENTANA, 1, x1_1, y1_2)
             fin_juego, angulo, velocidad, posX_tanque, posY_tanque, col_posxT, col_posyT, listaProyectiles, opcProyectil = turno_1(x1_1, y1_2, x2_1, y2_2, listaProyectiles, 1)

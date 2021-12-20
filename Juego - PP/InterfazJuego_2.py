@@ -319,4 +319,4 @@ class InterfazJuego():
         VENTANA.blit(txt_jugador,(Rect.x + 470 , Rect.y + 0))
         VENTANA.blit(jugadores,(Rect.x + 300 , Rect.y + 0))
 
-
+    

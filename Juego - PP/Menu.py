@@ -63,6 +63,7 @@ def Opciones():
         click = False
         correr = True
         while correr:
+            
             VENTANA.fill((0,0,0))
             bala_1 = pygame.Rect(10, 150, 200, 50)
             bala_2 = pygame.Rect(300, 150, 200, 50)

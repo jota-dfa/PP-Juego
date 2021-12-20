@@ -30,7 +30,7 @@ fuente_base = pygame.font.Font(None,50)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 textoBotonSalir = 'Salir'
-seleccion_mapa = 2
+seleccion_mapa = 1#random.randint(1,3)
 
 def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
@@ -137,6 +137,7 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
             b = random.randint(1,4)
 
             listPos = {(40, 30), (326, 30), (500, 30), (670, 30), (850, 30), (1015, 30), (1238, 30), (1561, 30)}
+
             #listTanks = {1, 2, 3, 4, 5, 6}
             listTurn = {1, 2, 3, 4, 5, 6}
 
@@ -164,58 +165,20 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
             a = random.randint(1,4)
             b = random.randint(1,4)
             
-            listPos = {(23, 30), (147, 30), (323, 30), (483, 30), (730, 30), (1133, 30), (1283, 30), (1449, 30)}
-            #listTanks = {1, 2, 3, 4, 5, 6}
-            listTurn = {1, 2, 3, 4, 5, 6}
-
-            listPos = desordenarList(listPos, len(listPos))
-            #listTanks = desordenarList(listTanks, numTanks) # (List, Len(listTanks))
-            listTurn = desordenarList(listTurn, numTanks)
-
-            for i in range(numTanks):
-                if( i == 0 ):
-                    Tanques_2.Tanques.p1(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 1 ):
-                    Tanques_2.Tanques.p2(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 2 ):
-                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 3 ):
-                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 4 ):
-                    Tanques_2.Tanques.p4(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 5 ):
-                    Tanques_2.Tanques.p5(VENTANA, listPos[i][0], listPos[i][1])
-
-            return listPos
+            coordenada1_1, coordenada1_2 = 336, 415
+            coordenada2_1, coordenada2_2 = 1204, 315
+            
+            return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
         
         if(seleccion_mapa==3):
             
             a = random.randint(1,5)
             b = random.randint(1,4)
 
-            listPos = {(21, 30), (179, 30), (439, 30), (755, 30), (967, 30), (1085, 30), (1305, 30), (1569, 30)}
-            #listTanks = {1, 2, 3, 4, 5, 6}
-            listTurn = {1, 2, 3, 4, 5, 6}
+            coordenada1_1, coordenada1_2 = 146, 414
+            coordenada2_1, coordenada2_2 = 1060, 314
 
-            listPos = desordenarList(listPos, len(listPos))
-            #listTanks = desordenarList(listTanks, numTanks) # (List, Len(listTanks))
-            listTurn = desordenarList(listTurn, numTanks)
-
-            for i in range(numTanks):
-                if( i == 0 ):
-                    Tanques_2.Tanques.p1(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 1 ):
-                    Tanques_2.Tanques.p2(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 2 ):
-                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 3 ):
-                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 4 ):
-                    Tanques_2.Tanques.p4(VENTANA, listPos[i][0], listPos[i][1])
-                if( i == 5 ):
-                    Tanques_2.Tanques.p5(VENTANA, listPos[i][0], listPos[i][1])
-
-            return listPos
+            return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
 
     def validar_angulo(x):
         if x < 0 or x > 180:
@@ -240,7 +203,17 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
         else:
             velocidad_usuario = y
-            return velocidad_usuario         
+            return velocidad_usuario
+
+    def expressIA(nJugadores, nIa):
+        newList = []
+        for i in range(nJugadores):
+            if(i < nIA):
+                newList.append((i, -1))
+            else:
+                newList.append((i, 1))
+        return newList
+                   
 
     def turno_1(posxEmisor, posyEmisor, listaProyectiles, turno):
         
@@ -381,7 +354,6 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         return 0, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, listaProyectiles, opcProyectil
                  
 
-    turno = 1
     active = False
     fin_juego = 0
     municion_105 = Lista_proyectiles[2]
@@ -393,11 +365,18 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
     listaProyectiles = Proyectil.Proyectil.proyectiles(listaProyectiles,municion_105, municion_perfor,municion_60)
     listaProyectilesB = Proyectil.Proyectil.proyectiles(listaProyectilesB,municion_105, municion_perfor,municion_60)
     vida = [100, 100, 100, 100, 100, 100]
+    kills = [0, 0, 0, 0, 0, 0, 0]
 
     numTanques = jugadores
     posEmisor = 0
     aux = 0
     indexListPos = 0
+    nIA = 2 #####
+    nIA = nIA - 1
+    listaIA = expressIA(numTanques, nIA)
+    turno = listaIA[indexListPos][1]
+
+    #print(listaProyectiles[0][1])
 
     while turno != 0: #PRINCIPAL
         
@@ -420,13 +399,9 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         vida = Tanques_2.Tanques.vida(VENTANA, vida, 0, 0)
         pygame.display.update()
 
-
-        #print(listaPosiciones)
-
-
         pygame.display.update()  #Actualizacion ventana       
         InterfazJuego_2.InterfazJuego.altura_distancia()         
-
+        
         if turno == 1: ## Turno == 1, acciones de jugador
             print("\nJUGADOR", indexListPos+1)
             #fin_juego, angulo_usuario, velocidad_usuario, posxEmisor, posyEmisor, posxDestino, posyDestino
@@ -439,6 +414,23 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
             aux += 1 #Contador de turnos
             posEmisor += 1
 
+        #print(indexListPos)
+
+        if turno == -1:
+            print("\nJUGADOR", indexListPos+1)
+            posX_tanque, posY_tanque = x1_1, y1_2
+            velocidad = random.randint(30, 100)
+            ang = random.randint(20, 170)
+            angulo = Proyectil.Proyectil.grad_a_rad(ang)
+            t = 0
+            alt_max = Altura_maximo(velocidad , angulo)
+            turno += 5 #no entrada
+            aux += 1 #Contador de turnos
+            print("aux", aux)
+            posEmisor += 1
+            opcProyectil = random.randint(0,3)
+
+
         if(fin_juego == -1):
             return -1
 
@@ -449,7 +441,6 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         InterfazJuego_2.InterfazJuego.dibujar_altura(alt_max)
         InterfazJuego_2.InterfazJuego.dibujar_distancia(dMax)
         
-        
         ''' COLSIONES '''
 
         colision = check_colision(x, y, aux, listaPosiciones[indexListPos][0], listaPosiciones[indexListPos][0], numTanques)              # col_posxT, col_posyT = tanque destino
@@ -457,51 +448,17 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
         
         if(colision == False):     ##### False = colisiono terreno -> destruccion terreno, cambia turno
 
-            Mapa_2.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, aux,opcProyectil)
-            # Daño por radio
-            #print(numTanques)
-            #print(vida)
-            #print(indexListPos)
-            #print(opcProyectil)
-            #print(listaPosiciones)
-            vida = Mapa_2.Mapa.dañoRadio(x,y, numTanques, vida, indexListPos, opcProyectil, listaPosiciones)
-            turno = 1
-            indexListPos += 1
-            elem_iniciales2(seleccion_mapa)
-            Opciones_izq()
-
-        """if(colision == True): # True = colisiono tanque -> destruccion terreno ,cambia turno, resta vida
-            elem_iniciales2(seleccion_mapa)
-            Opciones_izq()
-            indexListPos += 1
             Mapa_2.Mapa.destruccionMapa(VENTANA, x, y, seleccion_mapa, aux, opcProyectil)
-            vida = Tanques_2.Tanques.vida(VENTANA, vida, listaProyectiles[opcProyectil][1], indexListPos) 
-            pygame.display.update()
-            #print("a ganado el jugador ", turno)
-            #fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)"""
+            vida = Mapa_2.Mapa.dañoRadio(x,y, numTanques, vida, indexListPos, opcProyectil, listaPosiciones)
+            turno = listaIA[indexListPos][1]
+            indexListPos += 1
+            elem_iniciales2(seleccion_mapa)
+            Opciones_izq()
 
         vida = Tanques_2.Tanques.vida(VENTANA, vida, 0, 0)
         pygame.display.update()
 
-        """if(colision_suicidio == True):  # tanque suicida
-            elem_iniciales2(seleccion_mapa)
-            Opciones_izq()
-            pygame.display.update()
-            if(aux % 2 != 0):
-                turno = 2
-                id = 1
-            else:
-                turno = 1
-                id = 2
-            vida = Tanques_2.Tanques.vida(VENTANA, vida, listaProyectiles[opcProyectil][1], id)
-            pygame.display.update()
-            #print("a ganado el jugador ", turno)
-            #fin_juego = InterfazJuego.pantalla_ganador(VENTANA, turno)"""
-        
-        if(vida[0] <= 0):
-            fin_juego = InterfazJuego_2.InterfazJuego.pantalla_ganador(VENTANA, 2)
-        if(vida[1] <= 0):
-            fin_juego = InterfazJuego_2.InterfazJuego.pantalla_ganador(VENTANA, 1)
+        #eliminacion de los tanques
 
         if(fin_juego == 1):
             break
@@ -520,15 +477,6 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
         InterfazJuego_2.InterfazJuego.turno_jugador(indexListPos+1)
         InterfazJuego_2.InterfazJuego.altura_distancia()
-
-        """if turno == 2:
-            print("\nJUGADOR 2")
-            #InterfazJuego_2.InterfazJuego.marcadorJugador(VENTANA, 2, x2_1, y2_2)
-            fin_juego, angulo, velocidad, posX_tanque, posY_tanque, listaProyectilesB, opcProyectil = turno_1(x2_1, y2_2, listaProyectilesB, 2)
-            t = 0
-            alt_max = Altura_maximo(velocidad , angulo)
-            turno += 5 #no entrada
-            aux += 1 #Contador de turnos"""
 
         for event in pygame.event.get():
             pos = pygame.mouse.get_pos()            

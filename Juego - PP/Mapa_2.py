@@ -63,13 +63,13 @@ class Mapa():
         
         if(seleccion_mapa == 2):
             if opcion_proyectil == 0:
-                b = 25
+                a = 25
             if opcion_proyectil == 1: #daño 50
-                b = 100
+                a = 100
             if opcion_proyectil == 2: #daño 40
-                b = 70  
+                a = 70  
             if opcion_proyectil == 3: #daño 30
-                b = 40
+                a = 40
                                   
             if(cont == 1):
                 with Image.open("imagenes/1600x900/16m2.png") as im:
@@ -84,13 +84,13 @@ class Mapa():
 
         if(seleccion_mapa == 3):
             if opcion_proyectil == 0:
-                c = 25
+                a = 25
             if opcion_proyectil == 1: #daño 50
-                c = 100
+                a = 100
             if opcion_proyectil == 2: #daño 40
-                c = 70  
+                a = 70  
             if opcion_proyectil == 3: #daño 30
-                c = 40 
+                a = 40 
 
             if(cont == 1):
                 with Image.open("imagenes/1600x900/16m3.png") as im:
