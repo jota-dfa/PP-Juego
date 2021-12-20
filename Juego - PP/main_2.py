@@ -30,7 +30,7 @@ fuente_base = pygame.font.Font(None,50)
 texto_angulo = 'Angulo'
 texto_velocidad = 'Velocidad'
 textoBotonSalir = 'Salir'
-seleccion_mapa = 1#random.randint(1,3)
+seleccion_mapa = 2
 
 def Juego(g, viento_activo, Lista_proyectiles, jugadores):
 
@@ -164,20 +164,58 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
             a = random.randint(1,4)
             b = random.randint(1,4)
             
-            coordenada1_1, coordenada1_2 = 336, 415
-            coordenada2_1, coordenada2_2 = 1204, 315
-            
-            return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
+            listPos = {(23, 30), (147, 30), (323, 30), (483, 30), (730, 30), (1133, 30), (1283, 30), (1449, 30)}
+            #listTanks = {1, 2, 3, 4, 5, 6}
+            listTurn = {1, 2, 3, 4, 5, 6}
+
+            listPos = desordenarList(listPos, len(listPos))
+            #listTanks = desordenarList(listTanks, numTanks) # (List, Len(listTanks))
+            listTurn = desordenarList(listTurn, numTanks)
+
+            for i in range(numTanks):
+                if( i == 0 ):
+                    Tanques_2.Tanques.p1(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 1 ):
+                    Tanques_2.Tanques.p2(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 2 ):
+                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 3 ):
+                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 4 ):
+                    Tanques_2.Tanques.p4(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 5 ):
+                    Tanques_2.Tanques.p5(VENTANA, listPos[i][0], listPos[i][1])
+
+            return listPos
         
         if(seleccion_mapa==3):
             
             a = random.randint(1,5)
             b = random.randint(1,4)
 
-            coordenada1_1, coordenada1_2 = 146, 414
-            coordenada2_1, coordenada2_2 = 1060, 314
+            listPos = {(21, 30), (179, 30), (439, 30), (755, 30), (967, 30), (1085, 30), (1305, 30), (1569, 30)}
+            #listTanks = {1, 2, 3, 4, 5, 6}
+            listTurn = {1, 2, 3, 4, 5, 6}
 
-            return coordenada1_1, coordenada1_2, coordenada2_1,coordenada2_2
+            listPos = desordenarList(listPos, len(listPos))
+            #listTanks = desordenarList(listTanks, numTanks) # (List, Len(listTanks))
+            listTurn = desordenarList(listTurn, numTanks)
+
+            for i in range(numTanks):
+                if( i == 0 ):
+                    Tanques_2.Tanques.p1(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 1 ):
+                    Tanques_2.Tanques.p2(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 2 ):
+                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 3 ):
+                    Tanques_2.Tanques.p3(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 4 ):
+                    Tanques_2.Tanques.p4(VENTANA, listPos[i][0], listPos[i][1])
+                if( i == 5 ):
+                    Tanques_2.Tanques.p5(VENTANA, listPos[i][0], listPos[i][1])
+
+            return listPos
 
     def validar_angulo(x):
         if x < 0 or x > 180:
