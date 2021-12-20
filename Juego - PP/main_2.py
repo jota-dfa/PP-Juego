@@ -411,11 +411,9 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores , ia):
     indexListPos = 0
     print("IA: ",ia)
     nIA = ia
-    nIA = nIA - 1
+    #nIA = nIA - 1
     listaIA = expressIA(numTanques, nIA)
     turno = listaIA[indexListPos][1]
-
-    #print(listaProyectiles[0][1])
 
     while turno != 0: #PRINCIPAL
         
@@ -452,8 +450,6 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores , ia):
             turno += 5 #no entrada
             aux += 1 #Contador de turnos
             posEmisor += 1
-
-        #print(indexListPos)
 
         if turno == -1:
             print("\nJUGADOR", indexListPos+1)
