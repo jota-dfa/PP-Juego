@@ -32,7 +32,7 @@ texto_velocidad = 'Velocidad'
 textoBotonSalir = 'Salir'
 seleccion_mapa = 2#random.randint(1,3)
 
-def Juego(g, viento_activo, Lista_proyectiles, jugadores):
+def Juego(g, viento_activo, Lista_proyectiles, jugadores , ia):
 
     if viento_activo == 0:
         print("Viento Desactivado")
@@ -409,7 +409,8 @@ def Juego(g, viento_activo, Lista_proyectiles, jugadores):
     posEmisor = 0
     aux = 0
     indexListPos = 0
-    nIA = 2 #####
+    print("IA: ",ia)
+    nIA = ia
     nIA = nIA - 1
     listaIA = expressIA(numTanques, nIA)
     turno = listaIA[indexListPos][1]

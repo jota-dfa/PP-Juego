@@ -21,39 +21,109 @@ def Dibujar_texto(texto, fuente, color, superficie, x, y):
 
 def Opciones():
     def jugadores():
-        texto_ventana = 'Introduzca la cantidad de jugadores'
-        texto_usuario_jugadores = ''
-        int_jugadores = 0
-        Boton_jugadores = pygame.Rect(300, 200, 200, 50)
+        int_jugadoes = 2
+        int_ia = 0 
+        click = False
         correr = True
         while correr:
+            
+            VENTANA.fill((0,0,0))
+            Boton_jugadores = pygame.Rect(10, 150, 200, 50)
+            Boton_ia = pygame.Rect(300, 150, 200, 50)
+            mx, my = pygame.mouse.get_pos()
+
+
+            Dibujar_texto('Jugadores Totales', FUENTE, (255, 255, 255), VENTANA, 15, 100)
+            Dibujar_texto('IA', FUENTE, (255, 255, 255), VENTANA, 305, 100)  
+
+            pygame.draw.rect(VENTANA, (255, 255,255), Boton_jugadores,1)
+            pygame.draw.rect(VENTANA, (255, 255,255), Boton_ia,1)
+
+
+            if Boton_jugadores.collidepoint((mx, my)):
+                if click:
+                    ejecutar = True
+                    texto_jugadores = ''
+                    int_jugadoes =0
+                    while ejecutar:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                pygame.quit()
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                previo = event.unicode
+                                if previo != ' ':
+
+                                    if event.key == pygame.K_BACKSPACE:
+                                        texto_jugadores = texto_jugadores[0:-1]
+
+                                    else:    
+                                        texto_jugadores += event.unicode 
+                                    
+                                else:
+                                    int_jugadoes = int(texto_jugadores)
+                                    ejecutar = False
+
+
+                
+                        texto_jug1 = FUENTE.render(texto_jugadores,True,(255,255,255))
+                        VENTANA.blit(texto_jug1,Boton_jugadores)
+                        pygame.display.update()
+                        Reloj.tick(60)
+                    print("JUGADORES: ", int_jugadoes)
+                    
+
+            if Boton_ia.collidepoint((mx, my)):
+                if click:
+                    texto_ia = ''
+                    int_ia =0
+                    ejecutar2= True
+                    while ejecutar2:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                pygame.quit()
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                previo = event.unicode
+                                if previo != ' ':
+
+                                    if event.key == pygame.K_BACKSPACE:
+                                        texto_ia = texto_ia[0:-1]
+
+                                    else:    
+                                        texto_ia += event.unicode 
+                                    
+                                else:
+                                    int_ia = int(texto_ia)
+                                    ejecutar2 = False
+
+
+                
+                        texto_ia_print = FUENTE.render(texto_ia,True,(255,255,255))
+                        VENTANA.blit(texto_ia_print,Boton_ia)
+                        pygame.display.update()
+                        Reloj.tick(60)                
+                    print("IA: ", int_ia)
+
+
+
+            click = False
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.KEYDOWN:
-
-                    if event.key == pygame.K_BACKSPACE:
-                        texto_usuario_jugadores = texto_usuario_jugadores[0:-1]
-
-                    else:    
-                        texto_usuario_jugadores += event.unicode
+                if event.type == KEYDOWN:
                     
-                    if event.key == pygame.K_SPACE:
-                        int_jugadores = int(texto_usuario_jugadores)
+                    if event.key == K_ESCAPE:
                         correr = False
-
-
-            VENTANA.fill((0,0,0)) 
-            pygame.draw.rect(VENTANA, (255, 255,255), Boton_jugadores,1)           
-            texto_jugadores = FUENTE.render(texto_usuario_jugadores,True,(255,255,255))
-            texto_ventana_inter = FUENTE.render(texto_ventana,True,(255,255,255))
-            VENTANA.blit(texto_ventana_inter,(250,100))
-            VENTANA.blit(texto_jugadores,Boton_jugadores)
+                        return int_jugadoes, int_ia   
+                if event.type == MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        click = True
+            
             pygame.display.update()
             Reloj.tick(60)
-
-        return int_jugadores 
+        return  int_jugadoes ,int_ia
 
     def municiones(): 
         bala_int_60mm = 3
@@ -309,8 +379,10 @@ def Opciones():
 
         return float_gravedad
 
-
-    lista_elementos=[0,3,5,3,9.8,0,2]
+    lista_jug = [2,0]
+    lista_elementos=[0,3,5,3,9.8,0,2,0]#[ventana , poyectil 1 , poyectil 2 , poyectil 3 , gravedad , viento , jugadoes , IA]
+    usuarios_jugadores = 0
+    usuarios_IA = 0
     click = False
     correr = True
     while correr:
@@ -341,7 +413,9 @@ def Opciones():
 
         if Boton_jug.collidepoint((mx, my)):
             if click:
-               lista_elementos[6] = jugadores()
+               usuarios_jugadores , usuarios_IA = jugadores()
+               lista_elementos[6] = usuarios_jugadores
+               lista_elementos[7] = usuarios_IA
                 
         if Boton_gravedad.collidepoint((mx,my)):
             if click:
@@ -374,15 +448,16 @@ def Opciones():
 
 
 def Menu_principal(lista_elementos):
-
+    usua_jug = 0
+    usua_ia = 0
     click = False
     while True:
         ventana = lista_elementos[0]
         Lista_proyect = [lista_elementos[1],lista_elementos[2],lista_elementos[3]]
         g = lista_elementos[4]
         v = lista_elementos[5]
-        jugadores = lista_elementos[6]
-
+        usua_jug = lista_elementos[6]
+        usua_ia = lista_elementos[7]
         VENTANA.fill((0,0,0))
         Dibujar_texto('Jugar', FUENTE, (255, 255, 255), VENTANA, 360, 160) 
         Dibujar_texto('Opciones', FUENTE, (255,255,255),VENTANA, 345, 260)
@@ -400,14 +475,14 @@ def Menu_principal(lista_elementos):
                 if ventana == 0:
                     print("Viento final: ",v)
                     print("Gravedad final: ",g)
-                    salirTodo = main.Juego(g, v ,Lista_proyect)
+                    salirTodo = main.Juego(g, v ,Lista_proyect , usua_jug)
                     if salirTodo == -1:
                         return -1000
 
                 if ventana == 1:
                     print("Viento final: ",v)
                     print("Gravedad final: ",g)
-                    salirTodo = main_2.Juego(g, v ,Lista_proyect, jugadores)
+                    salirTodo = main_2.Juego(g, v ,Lista_proyect, usua_jug , usua_ia)
                     if salirTodo == -1:
                         exit()    
         
@@ -431,4 +506,4 @@ def Menu_principal(lista_elementos):
         Reloj.tick(60)
 
 
-Menu_principal(lista_elementos=[0,3,5,3,9.8,0,0])
+Menu_principal(lista_elementos=[0,3,5,3,9.8,0,2,0])#[ventana , poyectil 1 , poyectil 2 , poyectil 3 , gravedad , viento , jugadoes , IA]
